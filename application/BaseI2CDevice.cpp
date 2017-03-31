@@ -17,7 +17,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "i2c_utils.h"
+#include "BaseI2CDevice.h"
 
 
 /*!
@@ -70,19 +70,31 @@ unsigned char BaseI2CDevice::get_byte(int add1) {
 unsigned int BaseI2CDevice::get_uint(int add1) {
   set_address(add1);
 
-  if (read(file, buf, 1) != 1){
-    fprintf(stderr, "Error reading %i bytes\n",1);
+  if(read(file, buf, 4) != 4){
+    fprintf(stderr, "Error reading %i bytes\n", 4);
     exit(1);
   } else {
-    unsigned char b1, b2, b3, b4;
-    b1 = get_byte(reg_encTarget[0]);
-    b2 = get_byte(reg_encTarget[1]);
-    b3 = get_byte(reg_encTarget[2]);
-    b4 = get_byte(reg_encTarget[3]);
-    unsigned int value = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
+    unsigned int value = (buf[3] << 24) | (buf[2] << 16) | (buf[1] << 8) | (buf[0]);
     return value;
   }
 }
+
+
+/*!
+@brief Get byte value at address
+*/
+int BaseI2CDevice::get_int(int add1) {
+  set_address(add1);
+
+  if(read(file, buf, 4) != 4){
+    fprintf(stderr, "Error reading %i bytes\n", 4);
+    exit(1);
+  } else {
+    int value = (buf[3] << 24) | (buf[2] << 16) | (buf[1] << 8) | (buf[0]);
+    return value;
+  }
+}
+
 
 /*!
 @brief Set byte value at address
