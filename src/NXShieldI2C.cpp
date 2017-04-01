@@ -23,34 +23,35 @@
 #include "NXShield.h"
 
 NXShieldI2C::NXShieldI2C(uint8_t i2c_address)
-  : BaseI2CDevice(i2c_address), SoftI2cMaster(i2c_address)
+  : I2CDevice(i2c_address), SoftI2cMaster(i2c_address)
 {
 }
 
-uint8_t  NXShieldI2C::readByte  (uint8_t location)
-{
-  if (!m_protocol) return BaseI2CDevice::readByte( location );
-  else             return SoftI2cMaster::readByte( location );
+uint8_t  NXShieldI2C::readByte(uint8_t location) {
+  if(!m_protocol) {
+    return I2CDevice::readByte(location);
+  } else {
+    return SoftI2cMaster::readByte(location);
+  }
 }
-
 
 uint16_t NXShieldI2C::readInteger  (uint8_t location)
 {
-  if (!m_protocol) return BaseI2CDevice::readInteger( location );
+  if (!m_protocol) return I2CDevice::readInteger( location );
   else             return SoftI2cMaster::readInteger( location );
 }
 
 
 uint32_t NXShieldI2C::readLong  (uint8_t location)
 {
-  if (!m_protocol) return BaseI2CDevice::readLong( location );
+  if (!m_protocol) return I2CDevice::readLong( location );
   else             return SoftI2cMaster::readLong( location );
 }
 
 
 uint8_t*  NXShieldI2C::readRegisters  (uint8_t  startRegister, uint8_t  bytes, uint8_t* buf)
 {
-  if (!m_protocol) return BaseI2CDevice::readRegisters(startRegister, bytes, buf);
+  if (!m_protocol) return I2CDevice::readRegisters(startRegister, bytes, buf);
 	else             return SoftI2cMaster::readRegisters(startRegister, bytes, buf);
 }
 
@@ -58,52 +59,52 @@ uint8_t*  NXShieldI2C::readRegisters  (uint8_t  startRegister, uint8_t  bytes, u
 char*    NXShieldI2C::readString  (uint8_t  location, uint8_t  bytes_to_read,
             uint8_t* buffer, uint8_t  buffer_length)
 {
-  if (!m_protocol) return BaseI2CDevice::readString(location, bytes_to_read, buffer, buffer_length);
+  if (!m_protocol) return I2CDevice::readString(location, bytes_to_read, buffer, buffer_length);
   else             return SoftI2cMaster::readString(location, bytes_to_read, buffer, buffer_length);
 }
 
 
 bool NXShieldI2C::writeRegisters  (uint8_t start_register, uint8_t bytes_to_write, uint8_t* buffer)
 {
-  if (!m_protocol) return BaseI2CDevice::writeRegisters(start_register, bytes_to_write, buffer);
+  if (!m_protocol) return I2CDevice::writeRegisters(start_register, bytes_to_write, buffer);
   else             return SoftI2cMaster::writeRegisters(start_register, bytes_to_write, buffer);
 }
 
 bool NXShieldI2C::writeByte  (uint8_t location, uint8_t data)
 {
   uint8_t dd[3];
-  if (!m_protocol) return BaseI2CDevice::writeByte(location, data);
+  if (!m_protocol) return I2CDevice::writeByte(location, data);
   else             return SoftI2cMaster::writeByte(location, data);
 }
 
 bool NXShieldI2C::writeInteger(uint8_t location, uint16_t data)
 {
-  if (!m_protocol) return BaseI2CDevice::writeInteger(location, data);
+  if (!m_protocol) return I2CDevice::writeInteger(location, data);
   else             return SoftI2cMaster::writeInteger(location, data);
 }
 
 bool NXShieldI2C::writeLong  (uint8_t location, uint32_t data)
 {
-  if (!m_protocol) return BaseI2CDevice::writeLong(location, data);
+  if (!m_protocol) return I2CDevice::writeLong(location, data);
   else             return SoftI2cMaster::writeLong(location, data);
 }
 
 uint8_t NXShieldI2C::getErrorCode  ( )
 {
-  if (!m_protocol) return BaseI2CDevice::getWriteErrorCode();
+  if (!m_protocol) return I2CDevice::getWriteErrorCode();
   else             return SoftI2cMaster::getWriteErrorCode();
 }
 
 bool NXShieldI2C::checkAddress  ( )
 {
-  if (!m_protocol) return BaseI2CDevice::checkAddress();
+  if (!m_protocol) return I2CDevice::checkAddress();
   else             return SoftI2cMaster::checkAddress();
 }
 
 bool NXShieldI2C::setAddress  (uint8_t address)
 {
 	// regardless of protocol, set the address
-  BaseI2CDevice::setAddress(address);
+  I2CDevice::setAddress(address);
   SoftI2cMaster::setAddress(address);
 	return true;
 }
@@ -152,7 +153,7 @@ void NXShieldI2C::init(void * shield, SH_BankPort bp)
       m_protocol = ((NXShield *)shield)->m_protocol;
       switch (m_protocol) {
         case SH_HardwareI2C: {
-          BaseI2CDevice::initProtocol ( );
+          I2CDevice::initProtocol ( );
         } break;
         case SH_SoftwareI2C: {
           SoftI2cMaster::initProtocol ( ); // no arguments, ie use default h/w i2c pins: (A5,A4)

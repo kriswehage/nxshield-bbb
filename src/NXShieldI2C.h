@@ -23,7 +23,7 @@
 #define NXShieldI2C_H
 
 #include "SHDefines.h"
-#include "BaseI2CDevice.h"
+#include "I2CDevice.h"
 #include "SoftI2cMaster.h"
 
 /**
@@ -40,34 +40,34 @@ public:
 	uint8_t *_i2c_buffer;
 
 public:
-	/** Class constructor for the NXShieldI2C; derived from both BaseI2CDevice and SoftI2cMaster; i2c address must be passes as a parameter */
+	/** Class constructor for the NXShieldI2C; derived from both I2CDevice and SoftI2cMaster; i2c address must be passes as a parameter */
   NXShieldI2C(uint8_t i2c_address);
-  
+
 	/** global variable of the i2c protocol used */
 	uint8_t m_protocol;
 
-	/** initialized this i2c address with a pointed to the NXShield and the bankport it is connected to */
-	void init(void * shield, SH_BankPort bp);
-  
+	/** initialized this i2c address with a pointer to the NXShield and the bankport it is connected to */
+	void init(void* shield, SH_BankPort bp);
+
 	/** Read a byte from specified location
 	 @param location address to read at
 	 @return  a byte value read from the location
 	*/
   uint8_t  readByte  (uint8_t location);
-  
+
 	/** Read an integer from specified location. Integer comprises of 2 bytes.
 	 @param location address to read at
 	 @return  an integer value read from the location
 	*/
 	uint16_t readInteger  (uint8_t location);
-	
+
 	/** Read a long from specified location. Long comprises of 4 bytes.
 	 @param location address to read at
 	 @return  a long value read from the location
 	*/
   uint32_t readLong  (uint8_t location);
-	
-	/** read the specified number of bytes from the buffer starting from the specified start register 
+
+	/** read the specified number of bytes from the buffer starting from the specified start register
 	 @param start_register location to start reading from
 	 @param bytes Number of bytes to read
 	 @param buf buffer to read the data into
@@ -98,14 +98,14 @@ public:
 	@param data the data to write.
 	*/
   bool     writeByte  (uint8_t location, uint8_t data);
-  
+
 	/** write two bytes (int) to the specified register location
 	@param location location to write to.
 	@param data the data to write.
 	*/
 	bool     writeInteger(uint8_t location, uint16_t data);
-  
-	/** write four bytes (long) to the specified register location 
+
+	/** write four bytes (long) to the specified register location
 	@param location location to write to.
 	@param data the data to write.
 	*/
@@ -113,13 +113,13 @@ public:
 
 	/** get the firmware version of the device */
 	char*		getFirmwareVersion();
-	
+
 	/** get the name of the vendor of the device */
 	char*		getVendorID();
-	
+
 	/** get the name of the device */
 	char*		getDeviceID();
-	
+
 	/** get the features the device is capable of; only supported by some devices */
 	char*		getFeatureSet();
 
@@ -128,7 +128,7 @@ public:
 
 	bool checkAddress();
 
-	/** set the i2c address for this device 
+	/** set the i2c address for this device
 	@param address new device address.
 	*/
   bool setAddress(uint8_t address);
@@ -137,4 +137,3 @@ public:
 
 
 #endif
-

@@ -223,7 +223,7 @@ typedef enum {
  sumoeyes changes range,
  and sound sensor changes range (db to linear)
 */
-#define SH_Type_DATABIT0_HIGH   0x40 
+#define SH_Type_DATABIT0_HIGH   0x40
 
 /*!
   \def SH_Type_DATABIT1_HIGH
@@ -241,6 +241,7 @@ typedef enum {
 	Sketches should use SH_BankPort enums.
 */
 #define SH_S1   1
+
 /*!
   \def SH_S2
 	This is used internally to address Sensor Port 2.
@@ -250,34 +251,29 @@ typedef enum {
 #define SH_S2   2
 
 #include "NXShieldI2C.h"
-#if defined(__AVR__)
-  #include <avr/io.h>
-  #include <avr/interrupt.h>
-#endif
 
 /**
   @brief This class defines methods for the NXShield Bank(s).
   */
-class NXShieldBank : public NXShieldI2C
-{
+class NXShieldBank : public NXShieldI2C {
 public:
   /** Constructor for bank a of the nxshield device */
   NXShieldBank(uint8_t i2c_address = SH_Bank_A);
-  
+
   /** Get the battery voltage (milli-volts) for this bank of the NXShield
-    @return voltage value in milli-volts 
+    @return voltage value in milli-volts
     The voltage reported by this function is actual voltage at VIN pin on Arduino
     This will be lower than your supply voltage due to drops at various points in the circuit.
     The drop will be different based on where the power source is connected.
     (i.e. source through NXShield Green connector Vs Arduino black adapater Vs Arduino USB.)
     */
-  int  nxshieldGetBatteryVoltage();
-  
-  /** 
+  int nxshieldGetBatteryVoltage();
+
+  /**
   Issue a command to this bank of the NXShield
   @param command Refer to user guide for list of commands.
   */
-  uint8_t  nxshieldIssueCommand(char command);
+  uint8_t nxshieldIssueCommand(char command);
 
   //
   //  Motor Operation APIs.
@@ -286,43 +282,43 @@ public:
     @param which_motor    Provide which motor to operate on
     @param target         Encode value to achieve
   */
-  bool     motorSetEncoderTarget(SH_Motor which_motor, long target);
-  
-  /** 
+  bool motorSetEncoderTarget(SH_Motor which_motor, long target);
+
+  /**
   Get the target encoder position for the motor
     @param which_motor    Provide which motor to operate on
     @return long encoder value that the motor is trying to achieve.
   */
-  long     motorGetEncoderTarget(SH_Motor which_motor);
-  
-  /** 
+  long motorGetEncoderTarget(SH_Motor which_motor);
+
+  /**
   Set the speed of the motor
     @param which_motor    Provide which motor to operate on
     @param speed          The speed value between 0 and 100
   */
-  bool     motorSetSpeed(SH_Motor which_motor, int speed);
-  
-  /** 
+  bool motorSetSpeed(SH_Motor which_motor, int speed);
+
+  /**
   Get the speed of the motor
     @param which_motor    Provide which motor to operate on
     @return  the speed value set to the motor
   */
-  int8_t   motorGetSpeed(SH_Motor which_motor);
-  
-  /** 
+  int8_t motorGetSpeed(SH_Motor which_motor);
+
+  /**
   Set the time in seconds for which the motor should run for
     @param which_motor    Provide which motor to operate on
     @param seconds          The time duration the motor should run
   */
-  bool     motorSetTimeToRun(SH_Motor which_motor, int seconds);
-  
-  /** 
+  bool motorSetTimeToRun(SH_Motor which_motor, int seconds);
+
+  /**
   Get the time in seconds that the motor is running for
     @param which_motor    Provide which motor to operate on
     @return  time the motor has been running since last start.
   */
-  uint8_t  motorGetTimeToRun(SH_Motor which_motor);
-  
+  uint8_t motorGetTimeToRun(SH_Motor which_motor);
+
   /**
     Set the Command Register B
     There are two command registers, A and B.
@@ -333,7 +329,8 @@ public:
     @param which_motor    Provide which motor to operate on
     @param value       The command register value to set
   */
-  bool     motorSetCommandRegB(SH_Motor which_motor, uint8_t value);
+  bool motorSetCommandRegB(SH_Motor which_motor, uint8_t value);
+
   /**
     Get the command register B
 
@@ -342,7 +339,8 @@ public:
     @param which_motor    Provide which motor to operate on
     @return the last set command register value.
   */
-  uint8_t  motorGetCommandRegB(SH_Motor which_motor);
+  uint8_t motorGetCommandRegB(SH_Motor which_motor);
+
   /**
     Set the Command Register A
     There are two command registers, A and B.
@@ -352,7 +350,8 @@ public:
     @param which_motor    Provide which motor to operate on
     @param value       The command register value to set
     */
-  bool     motorSetCommandRegA(SH_Motor which_motor, uint8_t value);
+  bool motorSetCommandRegA(SH_Motor which_motor, uint8_t value);
+
   /**
     Get the command register A
 
@@ -361,85 +360,91 @@ public:
     @param which_motor    Provide which motor to operate on
     @return the last set command register value.
   */
-  uint8_t  motorGetCommandRegA(SH_Motor which_motor);
-  
-  /** 
+  uint8_t motorGetCommandRegA(SH_Motor which_motor);
+
+  /**
   Get the current encoder position of the motor in degrees
     @param which_motor    Provide which motor to operate on
     @return              current encoder value
   */
-  int32_t  motorGetEncoderPosition(SH_Motor which_motor);
-  
-  /** 
+  int32_t motorGetEncoderPosition(SH_Motor which_motor);
+
+  /**
   Get the current status of the motor
     @param which_motor    Provide which motor to operate on
     @return  The current status of the motor.
     This is a byte with various bits set based on motor's state.
     Refer to User Guide for details of bits.
-  */  
-  uint8_t  motorGetStatusByte(SH_Motor which_motor);
-  
-  /** 
+  */
+  uint8_t motorGetStatusByte(SH_Motor which_motor);
+
+  /**
   Get the tasks that are running on the specific motor
     @param which_motor    Provide which motor to operate on
     @return  The task byte that's currently running for this motor.
     (Currently only one task is supported.)
   */
   uint8_t  motorGetTasksRunningByte(SH_Motor which_motor);
-  
-  /** 
+
+  /**
   Set the PID control factors for the encoders
   All motors on this bank will use the same PID values.
     @param Kp The proportionate factor of the PID.
     @param Ki The integreal factor of the PID.
     @param Kd The differential factor of the PID.
   */
-  bool     motorSetEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd);
-  
-  /** 
+  bool motorSetEncoderPID(
+    uint16_t Kp,
+    uint16_t Ki,
+    uint16_t Kd);
+
+  /**
   Set the PID control factors for the speed of the motors
   All motors on this bank will use the same PID values.
     @param Kp The proportionate factor of the PID.
     @param Ki The integreal factor of the PID.
     @param Kd The differential factor of the PID.
   */
-  bool     motorSetSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd);
-  
-  /** 
+  bool motorSetSpeedPID(
+    uint16_t Kp,
+    uint16_t Ki,
+    uint16_t Kd);
+
+  /**
   Set how many times the PID controller is allowed to oscillate at the set point
   Depending on your situation of load and power characteristics, your PID algorithm
   may oscillate indefinitly trying to achieve it's target.
   To prevent that from happening there is a limit set.
     @param pass_count the maximum number of times the PID is allowed to cross it's target.
   */
-  bool     motorSetPassCount(uint8_t pass_count);
-  
-  /** 
+  bool motorSetPassCount(uint8_t pass_count);
+
+  /**
   Set how far away from the set point the PID controller is allowed to oscillate (amplitude)
   Depending on your situation of load and power characteristics, your PID algorithm
   may oscillate above or below the target.
     @param tolerance the maximum amplititude allowed.
   */
-  bool     motorSetTolerance(uint8_t tolerance);
-  
-  /** 
+  bool motorSetTolerance(uint8_t tolerance);
+
+  /**
   Reset all the set values for the motors
   Applies to all motors on this bank.
   */
-  bool     motorReset();
-  
-  /** 
+  bool motorReset();
+
+  /**
   Start both motors at the same time to follow the set conditions
   This will execute the commands specified in the command register on both motors at once.
   */
-  bool     motorStartBothInSync();
-  
-  /** 
+  bool motorStartBothInSync();
+
+  /**
   Reset the current encoder position to zero for the motor
     @param which_motor    Provide which motor to operate on
   */
-  bool     motorResetEncoder(SH_Motor which_motor);
-  
+  bool motorResetEncoder(SH_Motor which_motor);
+
   /**
   Set the speed, duration to run, and control for the motor through register A (or B)
 
@@ -450,10 +455,13 @@ public:
     @param duration       time to run in seconds
     @param control        command register value
   */
-  bool     motorSetSpeedTimeAndControl(SH_Motor which_motors, int speed,
-                                      uint8_t duration, uint8_t control);
+  bool motorSetSpeedTimeAndControl(
+    SH_Motor which_motors,
+    int speed,
+    uint8_t duration,
+    uint8_t control);
 
-  /** 
+  /**
  This function sets the speed, the number of seconds, and
  the control (a.k.a. command register A)
 
@@ -465,52 +473,57 @@ public:
     @param duration       time to run in seconds
     @param control        command register value
   */
-  bool     motorSetEncoderSpeedTimeAndControl(SH_Motor which_motors,
-                                      long encoder, int speed,
-                                      uint8_t duration, uint8_t control);
-  
+  bool motorSetEncoderSpeedTimeAndControl(
+    SH_Motor which_motors,
+    long encoder,
+    int speed,
+    int8_t duration,
+    uint8_t control);
+
   /**
   Validate if the motor has finished running for the set time duration
     @param which_motors    Provide which motor(s) to operate on
     @return                0 when motor(s) has completed a timed move properly,
     If the return value is non-zero, either motor has not finished yet or has encountered an error condition.
   */
-  uint8_t     motorIsTimeDone(SH_Motor which_motors);
-  
+  uint8_t motorIsTimeDone(SH_Motor which_motors);
+
   /**
   Wait until the motor has finished running for its set respective time duration
     @param which_motors    Provide which motor(s) to operate on
     @return                function waits until when motor(s) has stopped, returns 0 if the set goal was achieved.
     If the return value is non-zero, you should check for error condition such as stall.
   */
-  uint8_t     motorWaitUntilTimeDone(SH_Motor which_motors);
-  
+  uint8_t motorWaitUntilTimeDone(SH_Motor which_motors);
+
   /**
   Validate if the motor has reached its set target tachometer position
     @param which_motors    Provide which motor(s) to operate on
     @return                0 when motor(s) has completed a encoder based move properly,
     If the return value is non-zero, either motor has not finished yet or has encountered an error condition.
   */
-  uint8_t     motorIsTachoDone(SH_Motor which_motors);
-  
-  /** 
+  uint8_t motorIsTachoDone(SH_Motor which_motors);
+
+  /**
   Wait until the motor has reached its set target tachometer position
     @param which_motors    Provide which motor(s) to operate on
     @return                function waits until when motor(s) has stopped, returns 0 if the set goal was achieved.
     If the return value is non-zero, you should check for error condition such as stall.
   */
-  uint8_t     motorWaitUntilTachoDone(SH_Motor which_motors);
-  
+  uint8_t motorWaitUntilTachoDone(SH_Motor which_motors);
+
   /**
   Run the motor endlessly at the desired speed in the desired direction
-   @param which_motors     specifiy the motor(s) to operate on
-   @param direction        specifiy the direction to run the motor
+   @param which_motors     specify the motor(s) to operate on
+   @param direction        specify the direction to run the motor
    @param speed            the speed value (between 0 and 100)
    @return  Starts the motors and function returns immediately
   */
-  void     motorRunUnlimited(SH_Motor which_motors, SH_Direction direction,
-                                      int speed);
-                                      
+  void motorRunUnlimited(
+    SH_Motor which_motors,
+    SH_Direction direction,
+    int speed);
+
   /** Run the motor for a set duration at a set speed and do the next action
    @param which_motors     specifiy the motor(s) to operate on
    @param direction        specifiy the direction to run the motor
@@ -521,11 +534,14 @@ public:
    @return        0 if the operation was finished satisfactorily,
             in case return value is non-zero you should check for the bits for error conditions.
   */
-  uint8_t     motorRunSeconds(SH_Motor which_motors, SH_Direction direction,
-                                      int speed, uint8_t duration,
-                                      SH_Completion_Wait wait_for_completion,
-                                      SH_Next_Action next_action);
-                                      
+  uint8_t motorRunSeconds(
+    SH_Motor which_motors,
+    SH_Direction direction,
+    int speed,
+    uint8_t duration,
+    SH_Completion_Wait wait_for_completion,
+    SH_Next_Action next_action);
+
   /**
   run until the tachometer target has been reached and do next action
    @param which_motors     specifiy the motor(s) to operate on
@@ -538,12 +554,15 @@ public:
    @return        0 if the operation was finished satisfactorily,
             in case return value is non-zero you should check for the bits for error conditions.
   */
-  uint8_t     motorRunTachometer(SH_Motor which_motors, SH_Direction direction,
-                                      int speed, long tachometer,
-                                      SH_Move relative,
-                                      SH_Completion_Wait wait_for_completion,
-                                      SH_Next_Action next_action);
-                                      
+  uint8_t motorRunTachometer(
+    SH_Motor which_motors,
+    SH_Direction direction,
+    int speed,
+    long tachometer,
+    SH_Move relative,
+    SH_Completion_Wait wait_for_completion,
+    SH_Next_Action next_action);
+
   /**
   Run the motor for a set number of degrees and proceed to the next action
    @param which_motors     specifiy the motor(s) to operate on
@@ -555,11 +574,14 @@ public:
    @return        0 if the operation was finished satisfactorily,
             in case return value is non-zero you should check for the bits for error conditions.
   */
-  uint8_t     motorRunDegrees(SH_Motor which_motors, SH_Direction direction,
-                                      int  speed, long degrees,
-                                      SH_Completion_Wait wait_for_completion,
-                                      SH_Next_Action next_action);
-                                      
+  uint8_t motorRunDegrees(
+    SH_Motor which_motors,
+    SH_Direction direction,
+    int speed,
+    long degrees,
+    SH_Completion_Wait wait_for_completion,
+    SH_Next_Action next_action);
+
   /**
   Run the motor for a set number of complete rotations and proceed to the next action
    @param which_motors     specifiy the motor(s) to operate on
@@ -571,18 +593,22 @@ public:
    @return        0 if the operation was finished satisfactorily,
             in case return value is non-zero you should check for the bits for error conditions.
   */
-  uint8_t     motorRunRotations(SH_Motor which_motors, SH_Direction direction,
-                                      int speed, long rotations,
-                                      SH_Completion_Wait wait_for_completion,
-                                      SH_Next_Action next_action);
-                                      
+  uint8_t motorRunRotations(
+    SH_Motor which_motors,
+    SH_Direction direction,
+    int speed,
+    long rotations,
+    SH_Completion_Wait wait_for_completion,
+    SH_Next_Action next_action);
+
   /**
   stop the motor and do the next action
    @param which_motors     specifiy the motor(s) to operate on
    @param next_action      for these motor being operated on
   */
-  bool     motorStop(SH_Motor which_motors, SH_Next_Action next_action);
-
+  bool motorStop(
+    SH_Motor which_motors,
+    SH_Next_Action next_action);
 
   //
   // NXShield sensor functions.
@@ -594,14 +620,16 @@ public:
   @param  sensor_type     type value of the sensor,
   refer to Advanced User Guide for available values of sensor types.
   */
-  bool     sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
-  
+  bool sensorSetType(
+    uint8_t which_sensor,
+    uint8_t sensor_type);
+
   /**
   Read the raw analog value from the sensor and return as an int
   @param  which_sensor the sensor to read the raw value from
   @return   raw value from the sensor
   */
-  int      sensorReadRaw(uint8_t which_sensor);
+  int sensorReadRaw(uint8_t which_sensor);
 
 };
 
@@ -616,12 +644,13 @@ private:
 public:
   /** constructor for bank be of the NXShield; optional custom i2c address can be supplied */
   NXShieldBankB(uint8_t i2c_address_b = SH_Bank_B);
+
   /**
   Read the raw analog value from the sensor and return as an int
   @param  which_sensor the sensor to read the raw value from
   @return   raw value from the sensor
   */
-  int      sensorReadRaw(uint8_t which_sensor);
+  int sensorReadRaw(uint8_t which_sensor);
 
   /**
   Set the sensor Type of the sensor on this bank
@@ -629,7 +658,7 @@ public:
   @param  sensor_type     type value of the sensor,
   refer to Advanced User Guide for available values of sensor types.
   */
-  bool     sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
+  bool sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
 };
 
 
@@ -639,23 +668,30 @@ public:
 class NXShield
 {
 public:
+
+  /*! @brief file pointer for i2c device */
+  int file;
+
   /**
   Global variable representing the i2c protocol to use; whether software or hardware
   */
   uint8_t m_protocol;
+
   /** Variable for the bank_a of NXShield
   */
-  NXShieldBank   bank_a;
+  NXShieldBank bank_a;
+
   /** Variable for the bank_b of NXShield
   */
-  NXShieldBankB  bank_b;
+  NXShieldBankB bank_b;
 
   /** class constructor for NXShield; optional custom i2c addresses may be supplied for both banks */
-  NXShield(uint8_t i2c_address_a = SH_Bank_A,
-           uint8_t i2c_address_b = SH_Bank_B);
-  
+  NXShield(
+    uint8_t i2c_address_a = SH_Bank_A,
+    uint8_t i2c_address_b = SH_Bank_B);
+
   /**
-  the initialization of the NXShield; 
+  the initialization of the NXShield;
 	This function initializes the LED related timers, and communication protocols.
   @param protocol optional, specify the i2c protocol to use for the NXShield and highspeed i2c port
   */
@@ -672,15 +708,15 @@ public:
   */
 	void initProtocols(SH_Protocols protocol=SH_HardwareI2C);
 
-  
+
   /**
   Get the button state of the specific button on NXShield.
   @param btn      Button to get state for (BTN_GO, BTN_LEFT, BTN_RIGHT)
-  @return true or false for specified button on the NXShield 
+  @return true or false for specified button on the NXShield
   */
   bool getButtonState(uint8_t btn);
-  
-  /** 
+
+  /**
   Wait inside function until specified button is pressed on NXShield (BTN_GO, BTN_LEFT, BTN_RIGHT)
   @param btn      Button to get state for (BTN_GO, BTN_LEFT, BTN_RIGHT)
   @param led_pattern   0 for LED off.
@@ -688,7 +724,7 @@ public:
   2 to brighten/lighten LED with heart beat pattern.
   */
   void waitForButtonPress(uint8_t btn, uint8_t led_pattern=1);
-  
+
   /**
   Set the colors of LED on the NXShield;
   The values of red, green, blue are between 0 to 8 (for 8 intensity levels).

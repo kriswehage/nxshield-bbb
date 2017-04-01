@@ -22,23 +22,24 @@
 */
 
 #include "NXShield.h"
-#if defined(__AVR__)
-	#include "MsTimer2.h"
-	static void callbackLED();
-#elif defined(__PIC32MX__)
-	uint32_t callbackLED(uint32_t);
-#endif
+#include "MsTimer2.h"
 
-bool btnState_go, btnState_left, btnState_right;
-uint8_t redLED, redLED_cp;
-uint8_t greenLED, greenLED_cp;
-uint8_t blueLED, blueLED_cp;
+static void callbackLED();
 
-bool format_bin(uint8_t i, char *s)
-{
+bool btnState_go;
+bool btnState_left;
+bool btnState_right;
+uint8_t redLED;
+uint8_t redLED_cp;
+uint8_t greenLED;
+uint8_t greenLED_cp;
+uint8_t blueLED;
+uint8_t blueLED_cp;
+
+bool format_bin(uint8_t i, char *s) {
   int j;
   int b = 0x80;
- 
+
   s[0] = '\0';
   for ( j = 0; j < 8; j++) {
     if ( i&b ) {
@@ -46,44 +47,33 @@ bool format_bin(uint8_t i, char *s)
     } else {
       strcat(s, "0");
     }
-    b = b>>1;
+    b = b >> 1;
   }
 }
 
+NXShield::NXShield(const char* filename) {
 
-NXShield::NXShield(uint8_t i2c_address_a, uint8_t i2c_address_b)
-{
-  if ( i2c_address_a != SH_Bank_A) bank_a.setAddress(i2c_address_a);
-  if ( i2c_address_b != SH_Bank_B) bank_b.setAddress(i2c_address_b);
+  if((file = open(filename, O_RDWR)) < 0) {
+    printf("Failed to open the bus.");
+    /* ERROR HANDLING; you can check errno to see what went wrong */
+    exit(1);
+  }
 }
 
-void NXShield::init(SH_Protocols protocol)
-{
+void NXShield::init(SH_Protocols protocol) {
   initLEDTimers();
-#if defined(__AVR__)
 	initProtocols(protocol);
-#elif defined(__PIC32MX__)
-	// following is set to Software I2c because hardware I2C on ChipKIT
-	// only supports devices with i2c addresses over 0x08.
-	// You can change the following to support hardware i2c, but before you do,
-	// make sure all your devices including NXShield have addresses over 0x08.
-	//
-	// Enable hardware protocol as following line:
-	// initProtocols(protocol);
-	//
-	initProtocols(SH_SoftwareI2C);
-#endif
 }
 
 void NXShield::initProtocols(SH_Protocols protocol)
 {
   m_protocol = protocol;
-  if (!m_protocol ) {
-    bank_a._i2c_buffer = bank_a._buffer;
-    bank_b._i2c_buffer = bank_b._buffer;
+  if(!m_protocol) {
+    bank_a.i2c_buffer = bank_a.m_buffer;
+    bank_b.i2c_buffer = bank_b.m_buffer;
   } else {
-    bank_a._i2c_buffer = bank_a._so_buffer;
-    bank_b._i2c_buffer = bank_b._so_buffer;
+    bank_a._i2c_buffer = bank_a.m_so_buffer;
+    bank_b._i2c_buffer = bank_b.m_so_buffer;
   }
   bank_a.init((void *) this, SH_BAS1);
   bank_b.init((void *) this, SH_BAS1);
@@ -183,12 +173,12 @@ int8_t NXShieldBank::motorGetSpeed(SH_Motor which_motor)
 // This is the time, in seconds, for the motor to run
 bool NXShieldBank::motorSetTimeToRun(SH_Motor which_motor, int seconds)
 {
-  uint8_t reg = (which_motor == SH_Motor_1) ? SH_TIME_M1 : SH_TIME_M2; 
+  uint8_t reg = (which_motor == SH_Motor_1) ? SH_TIME_M1 : SH_TIME_M2;
   return writeByte(reg, seconds);
 }
 uint8_t NXShieldBank::motorGetTimeToRun(SH_Motor which_motor)
 {
-  uint8_t reg = (which_motor == SH_Motor_1) ? SH_TIME_M1 : SH_TIME_M2; 
+  uint8_t reg = (which_motor == SH_Motor_1) ? SH_TIME_M1 : SH_TIME_M2;
   return readByte(reg);
 }
 
@@ -196,24 +186,24 @@ uint8_t NXShieldBank::motorGetTimeToRun(SH_Motor which_motor)
 // If you set it, you must set it to zero.
 bool NXShieldBank::motorSetCommandRegB(SH_Motor which_motor, uint8_t value)
 {
-  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_B_M1 : SH_CMD_B_M2; 
+  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_B_M1 : SH_CMD_B_M2;
   return writeByte(reg, value);
 }
 uint8_t NXShieldBank::motorGetCommandRegB(SH_Motor which_motor)
 {
-  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_B_M1 : SH_CMD_B_M2; 
+  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_B_M1 : SH_CMD_B_M2;
   return readByte(reg);
 }
 
 // See User's Guide for what command register A does
 bool NXShieldBank::motorSetCommandRegA(SH_Motor which_motor, uint8_t value)
 {
-  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_A_M1 : SH_CMD_A_M2; 
+  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_A_M1 : SH_CMD_A_M2;
   return writeByte(reg, value);
 }
 uint8_t NXShieldBank::motorGetCommandRegA(SH_Motor which_motor)
 {
-  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_A_M1 : SH_CMD_A_M2; 
+  uint8_t reg = (which_motor == SH_Motor_1) ? SH_CMD_A_M1 : SH_CMD_A_M2;
   return readByte(reg);
 }
 
@@ -878,4 +868,3 @@ void NXShield::ledHeartBeatPattern() {
   }
   breathNow ++;
 }
-
