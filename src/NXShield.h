@@ -613,23 +613,34 @@ public:
   //
   // NXShield sensor functions.
   //
-public:
   /**
   Set the sensor type of the sensor on this bank
   @param  which_sensor the sensor to set the type to.
   @param  sensor_type     type value of the sensor,
   refer to Advanced User Guide for available values of sensor types.
   */
-  bool sensorSetType(
-    uint8_t which_sensor,
-    uint8_t sensor_type);
+  // bool sensorSetType(
+  //   uint8_t which_sensor,
+  //   uint8_t sensor_type);
 
   /**
   Read the raw analog value from the sensor and return as an int
   @param  which_sensor the sensor to read the raw value from
   @return   raw value from the sensor
   */
-  int sensorReadRaw(uint8_t which_sensor);
+  // int sensorReadRaw(uint8_t which_sensor);
+
+private:
+
+  bool m_btnState_go;
+  bool m_btnState_left;
+  bool m_btnState_right;
+  uint8_t m_redLED;
+  uint8_t m_redLED_cp;
+  uint8_t m_greenLED;
+  uint8_t m_greenLED_cp;
+  uint8_t m_blueLED;
+  uint8_t m_blueLED_cp;
 
 };
 
@@ -650,7 +661,7 @@ public:
   @param  which_sensor the sensor to read the raw value from
   @return   raw value from the sensor
   */
-  int sensorReadRaw(uint8_t which_sensor);
+  // int sensorReadRaw(uint8_t which_sensor);
 
   /**
   Set the sensor Type of the sensor on this bank
@@ -658,15 +669,14 @@ public:
   @param  sensor_type     type value of the sensor,
   refer to Advanced User Guide for available values of sensor types.
   */
-  bool sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
+  // bool sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
 };
 
 
 /**
   @brief This class defines methods to access NXShield features
 */
-class NXShield
-{
+class NXShield {
 public:
 
   /*! @brief file pointer for i2c device */
@@ -686,9 +696,7 @@ public:
   NXShieldBankB bank_b;
 
   /** class constructor for NXShield; optional custom i2c addresses may be supplied for both banks */
-  NXShield(
-    uint8_t i2c_address_a = SH_Bank_A,
-    uint8_t i2c_address_b = SH_Bank_B);
+  NXShield(const char* filename);
 
   /**
   the initialization of the NXShield;
@@ -700,7 +708,7 @@ public:
   /**
   the initialization of the NXShield LED timers.
   */
-	void initLEDTimers();
+	// void initLEDTimers();
 
   /**
   the initialization of NXShield communication protocols.
@@ -714,7 +722,7 @@ public:
   @param btn      Button to get state for (BTN_GO, BTN_LEFT, BTN_RIGHT)
   @return true or false for specified button on the NXShield
   */
-  bool getButtonState(uint8_t btn);
+  // bool getButtonState(uint8_t btn);
 
   /**
   Wait inside function until specified button is pressed on NXShield (BTN_GO, BTN_LEFT, BTN_RIGHT)
@@ -723,7 +731,7 @@ public:
   1 to brighten/lighten LED with breathing pattern (default).
   2 to brighten/lighten LED with heart beat pattern.
   */
-  void waitForButtonPress(uint8_t btn, uint8_t led_pattern=1);
+  // void waitForButtonPress(uint8_t btn, uint8_t led_pattern=1);
 
   /**
   Set the colors of LED on the NXShield;
@@ -732,19 +740,19 @@ public:
   @param green      Intensity for green color (between 0 and 8)
   @param blue      Intensity for blue color (between 0 and 8)
   */
-  void ledSetRGB(uint8_t red = 0, uint8_t green = 0, uint8_t blue = 0);
+  // void ledSetRGB(uint8_t red = 0, uint8_t green = 0, uint8_t blue = 0);
 
   /**
     The LED is brightened and dimmed in a breathing pattern.
     Call this function repeatedly to make the pattern.
   */
-  void ledBreathingPattern();
+  // void ledBreathingPattern();
 
   /**
     The LED is brightened and dimmed in a HeartBeat pattern.
     Call this function repeatedly to make the pattern.
   */
-  void ledHeartBeatPattern();
+  // void ledHeartBeatPattern();
 };
 
 /** This function formats an integer in binary format.

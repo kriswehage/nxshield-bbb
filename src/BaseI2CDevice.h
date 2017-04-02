@@ -85,7 +85,6 @@ inline void writeLongToBuffer(uint8_t* buf, int32_t data) {
 	Feel free to instantiate I2CDevice.
 	*/
 class BaseI2CDevice {
-
 public:
 
 	/** constructor for the I2CDevice class; requires the path to the file pointer for the i2c bus that was created in NXShield and the address of the

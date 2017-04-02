@@ -19,11 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef NXShieldI2C_H
-#define NXShieldI2C_H
+#ifndef _NXSHIELDI2C_H_
+#define _NXSHIELDI2C_H_
 
 #include "SHDefines.h"
-#include "I2CDevice.h"
+#include "BaseI2CDevice.h"
 #include "SoftI2cMaster.h"
 
 /**
