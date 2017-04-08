@@ -51,7 +51,7 @@ bool format_bin(uint8_t i, char *s) {
 NXShield::NXShield(const char* filename) {
 
   if((m_file = open(filename, O_RDWR)) < 0) {
-    printf("Failed to open the bus: %s\n", filename);
+    printf("Failed to open i2c bus: %s\n", filename);
     /* ERROR HANDLING; you can check errno to see what went wrong */
     exit(1);
   }
@@ -59,8 +59,8 @@ NXShield::NXShield(const char* filename) {
   m_bankA = NXShieldBank();
   m_bankB = NXShieldBank();
 
-  m_bankA.init(m_file, SH_BAS1);
-  m_bankB.init(m_file, SH_BAS1);
+  m_bankA.init(m_file, 0x03);
+  m_bankB.init(m_file, 0x04);
 
   // ensure firmware compatibility.
   // assuming that both banks are identical,
