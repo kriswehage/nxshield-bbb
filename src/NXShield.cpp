@@ -51,7 +51,7 @@ bool format_bin(uint8_t i, char *s) {
 NXShield::NXShield(const char* filename) {
 
   if((m_file = open(filename, O_RDWR)) < 0) {
-    printf("Failed to open the bus.");
+    printf("Failed to open the bus: %s\n", filename);
     /* ERROR HANDLING; you can check errno to see what went wrong */
     exit(1);
   }

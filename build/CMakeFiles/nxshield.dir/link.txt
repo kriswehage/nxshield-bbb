@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnxshield.a  CMakeFiles/nxshield.dir/src/BaseI2CDevice.cpp.o CMakeFiles/nxshield.dir/src/NXShield.cpp.o
-/usr/bin/ranlib libnxshield.a
