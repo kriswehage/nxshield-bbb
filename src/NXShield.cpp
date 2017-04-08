@@ -68,24 +68,25 @@ NXShield::NXShield(const char* filename) {
   char v[10];
   char d[10];
   // char str[100];
-  strcpy(d, m_bankA.getDeviceID());
-  strcpy(v, m_bankA.getFirmwareVersion());
-  if ((strcmp(d, "NXShldM") == 0 ||
-       strcmp(d, "NXShldD") == 0 ) &&
-      (strcmp(v, "V1.07") == 0 ||
-       strcmp(v, "V1.06") == 0 ||
-       strcmp(v, "V1.05") == 0 ) )
-  {
-     // firmware is ok for this library
-  } else {
-    fprintf(stderr, "ERROR: Device-ID or Version mismatch. Device-ID: %s, Version: %s", d, v);
-    // while (true) { // stop here with red blinking light.
-    //   ledSetRGB(8, 0, 0);
-    //   delay(500);
-    //   ledSetRGB(0, 0, 0);
-    //   delay(500);
-    // }
-  }
+  printf("Device ID: %s ", m_bankA.getDeviceID());
+  printf("Firmware Version: %s\n", m_bankA.getFirmwareVersion());
+  // strcpy(v, m_bankA.getFirmwareVersion());
+  // if ((strcmp(d, "NXShldM") == 0 ||
+  //      strcmp(d, "NXShldD") == 0 ) &&
+  //     (strcmp(v, "V1.07") == 0 ||
+  //      strcmp(v, "V1.06") == 0 ||
+  //      strcmp(v, "V1.05") == 0 ) )
+  // {
+  //    // firmware is ok for this library
+  // } else {
+  //   fprintf(stderr, "ERROR: Device-ID or Version mismatch. Device-ID: %s, Version: %s\n", d, v);
+  //   // while (true) { // stop here with red blinking light.
+  //   //   ledSetRGB(8, 0, 0);
+  //   //   delay(500);
+  //   //   ledSetRGB(0, 0, 0);
+  //   //   delay(500);
+  //   // }
+  // }
   // end of firmware compatibility check
 }
 
