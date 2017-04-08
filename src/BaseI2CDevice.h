@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <inttypes.h>
+#include "SHDefines.h"
 
 /** parse the two bytes in the buffer into an integer */
 inline uint16_t readIntFromBuffer(uint8_t* buf) {
@@ -55,17 +56,18 @@ inline void writeByteToBuffer(uint8_t* buf, int8_t data) {
 	writeByteToBuffer(buf, (uint8_t)data);
 }
 
-/** write the two byte integer to the supplied buffer */
+/** write unsigned two byte integer to the supplied buffer */
 inline void writeIntToBuffer(uint8_t* buf, uint16_t data) {
 	buf[0] = data & 0xFF;
 	buf[1] = (data >> 8) & 0xFF;
 }
 
+/** write two byte integer to the supplied buffer */
 inline void writeIntToBuffer(uint8_t* buf, int16_t data) {
 	writeIntToBuffer(buf, (uint16_t)data);
 }
 
-/** write the four byte integer of type long to the supplied buffer */
+/** write unsigned four byte integer of type long to the supplied buffer */
 inline void writeLongToBuffer(uint8_t* buf, uint32_t data) {
 	buf[0] = data & 0xFF;
 	buf[1] = (data >> 8) & 0xFF;
@@ -73,6 +75,7 @@ inline void writeLongToBuffer(uint8_t* buf, uint32_t data) {
 	buf[3] = (data >> 24) & 0xFF;
 }
 
+/** write four byte integer of type long to the supplied buffer */
 inline void writeLongToBuffer(uint8_t* buf, int32_t data) {
 	writeLongToBuffer(buf, (uint32_t)data);
 }
@@ -87,11 +90,10 @@ inline void writeLongToBuffer(uint8_t* buf, int32_t data) {
 class BaseI2CDevice {
 public:
 
-	/** constructor for the I2CDevice class; requires the path to the file pointer for the i2c bus that was created in NXShield and the address of the
-	i2c device */
-	BaseI2CDevice(int file, uint8_t i2c_address);
+	/** constructor for the I2CDevice class; requires the path to the file pointer for the i2c bus that was created in NXShield and the address of the	i2c device */
+	BaseI2CDevice();
 
-	void init(uint8_t i2c_address);
+	void init(int file, uint8_t i2c_address);
 
 	/** read specified number of bytes from the start register.
 	 @param start_register location to start reading from

@@ -22,6 +22,12 @@
 */
 
 #include "NXShield.h"
+#include <cstring>
+#include <cstdio>
+#include <linux/i2c-dev.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdint.h>
 // #include "MsTimer2.h"
 
 // static void callbackLED();
@@ -33,49 +39,37 @@ bool format_bin(uint8_t i, char *s) {
   s[0] = '\0';
   for ( j = 0; j < 8; j++) {
     if ( i&b ) {
-      strcat(s, "1");
+      std::strcat(s, "1");
     } else {
-      strcat(s, "0");
+      std::strcat(s, "0");
     }
     b = b >> 1;
   }
+  return true;
 }
 
 NXShield::NXShield(const char* filename) {
 
-  if((file = open(filename, O_RDWR)) < 0) {
+  if((m_file = open(filename, O_RDWR)) < 0) {
     printf("Failed to open the bus.");
     /* ERROR HANDLING; you can check errno to see what went wrong */
     exit(1);
   }
-}
 
-void NXShield::init(SH_Protocols protocol) {
-  // initLEDTimers();
-	initProtocols(protocol);
-}
+  m_bankA = NXShieldBank();
+  m_bankB = NXShieldBank();
 
-void NXShield::initProtocols(SH_Protocols protocol)
-{
-  m_protocol = protocol;
-  if(!m_protocol) {
-    bank_a.i2c_buffer = bank_a.m_buffer;
-    bank_b.i2c_buffer = bank_b.m_buffer;
-  } else {
-    bank_a.m_i2c_buffer = bank_a.m_so_buffer;
-    bank_b.m_i2c_buffer = bank_b.m_so_buffer;
-  }
-  bank_a.init((void *) this, SH_BAS1);
-  bank_b.init((void *) this, SH_BAS1);
+  m_bankA.init(m_file, SH_BAS1);
+  m_bankB.init(m_file, SH_BAS1);
 
-// ensure firmware compatibility.
-// assuming that both banks are identical,
-// it's adequate to check on one of the banks
+  // ensure firmware compatibility.
+  // assuming that both banks are identical,
+  // it's adequate to check on one of the banks
   char v[10];
   char d[10];
-  char str[100];
-  strcpy(d, bank_a.getDeviceID());
-  strcpy(v, bank_a.getFirmwareVersion());
+  // char str[100];
+  strcpy(d, m_bankA.getDeviceID());
+  strcpy(v, m_bankA.getFirmwareVersion());
   if ((strcmp(d, "NXShldM") == 0 ||
        strcmp(d, "NXShldD") == 0 ) &&
       (strcmp(v, "V1.07") == 0 ||
@@ -84,14 +78,13 @@ void NXShield::initProtocols(SH_Protocols protocol)
   {
      // firmware is ok for this library
   } else {
-    sprintf (str,"ERROR: Device-ID or Version mismatch. Device-ID: %s, Version: %s", d, v);
-    Serial.println(str);
-    while (true) { // stop here with red blinking light.
-      ledSetRGB(8, 0, 0);
-      delay(500);
-      ledSetRGB(0, 0, 0);
-      delay(500);
-    }
+    fprintf(stderr, "ERROR: Device-ID or Version mismatch. Device-ID: %s, Version: %s", d, v);
+    // while (true) { // stop here with red blinking light.
+    //   ledSetRGB(8, 0, 0);
+    //   delay(500);
+    //   ledSetRGB(0, 0, 0);
+    //   delay(500);
+    // }
   }
   // end of firmware compatibility check
 }
@@ -106,25 +99,15 @@ void NXShield::initLEDTimers() {
 // #endif
 }
 
-NXShieldBankB::NXShieldBankB(uint8_t i2c_address)
-: NXShieldBank(i2c_address) {
-
-}
-
-NXShieldBank::NXShieldBank(uint8_t i2c_address)
-: NXShieldI2C(i2c_address) {
-
-}
-
 // Voltage value returned in milli-volts.
-int NXShieldBank::nxshieldGetBatteryVoltage() {
+int NXShieldBank::getBatteryVoltage() {
   int v;
   int factor = 47;
   v = readByte(SH_VOLTAGE);
   return (v * factor);
 }
 
-uint8_t NXShieldBank::nxshieldIssueCommand(char command) {
+uint8_t NXShieldBank::issueCommand(char command) {
   return writeByte(SH_COMMAND, (uint8_t)command);
 }
 
@@ -208,17 +191,17 @@ uint8_t NXShieldBank::motorGetTasksRunningByte(SH_Motor which_motor)
 // Set the PID that controls how we stop as we approach the
 // angle we're set to stop at
 bool NXShieldBank::motorSetEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-  writeIntToBuffer(m_i2c_buffer + 0, Kp);
-  writeIntToBuffer(m_i2c_buffer + 2, Ki);
-  writeIntToBuffer(m_i2c_buffer + 4, Kd);
+  writeIntToBuffer(m_buffer + 0, Kp);
+  writeIntToBuffer(m_buffer + 2, Ki);
+  writeIntToBuffer(m_buffer + 4, Kd);
   return writeRegisters(SH_ENCODER_PID, 6);
 }
 
 // Sets the PID that controls how well that motor maintains its speed
 bool NXShieldBank::motorSetSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-  writeIntToBuffer(m_i2c_buffer + 0, Kp);
-  writeIntToBuffer(m_i2c_buffer + 2, Ki);
-  writeIntToBuffer(m_i2c_buffer + 4, Kd);
+  writeIntToBuffer(m_buffer + 0, Kp);
+  writeIntToBuffer(m_buffer + 2, Ki);
+  writeIntToBuffer(m_buffer + 4, Kd);
   return writeRegisters(SH_SPEED_PID, 6);
 }
 
@@ -240,20 +223,20 @@ bool NXShieldBank::motorSetTolerance(uint8_t tolerance) {
 untouched.
 */
 bool NXShieldBank::motorReset() {
-  return nxshieldIssueCommand('R');
+  return issueCommand('R');
 }
 
 /*! @brief Tells the motors to start at the same time.
 */
 bool NXShieldBank::motorStartBothInSync() {
-  return nxshieldIssueCommand('S');
+  return issueCommand('S');
 }
 
 /*! @brie Reset the encoder for motor 1 or motor 2
 */
 bool NXShieldBank::motorResetEncoder(SH_Motor which_motor) {
   char code = (which_motor == SH_Motor_1) ? 'r' : 's';
-  return nxshieldIssueCommand(code);
+  return issueCommand(code);
 }
 
 /*! @brief This function sets the speed, the number of seconds, and
@@ -278,10 +261,10 @@ bool NXShieldBank::motorSetSpeedTimeAndControl(
     return m1 && m2;
   }
 
-  mm_i2c_buffer[0] = (uint8_t)(int8_t)speed;
-  m_i2c_buffer[1] = duration;
-  m_i2c_buffer[2] = 0;      // command register B
-  m_i2c_buffer[3] = control;  // command register A
+  m_buffer[0] = (uint8_t)(int8_t)speed;
+  m_buffer[1] = duration;
+  m_buffer[2] = 0;      // command register B
+  m_buffer[3] = control;  // command register A
 
   uint8_t reg = (which_motors == SH_Motor_1) ? SH_SPEED_M1 : SH_SPEED_M2;
   return writeRegisters(reg, 4);
@@ -294,14 +277,14 @@ bool NXShieldBank::motorSetSpeedTimeAndControl(
 @param duration in seconds
 @param control control flags
 */
-void nxshieldSetEncoderSpeedTimeAndControlInBuffer(
+void NXShieldBank::motorSetEncoderSpeedTimeAndControlInBuffer(
   uint8_t* buffer,
   long encoder,
   int speed,
   uint8_t duration,
   uint8_t control) {
 
-  writeLongToBuffer(buffer + 0, encoder);
+  writeLongToBuffer(buffer + 0, (uint32_t)encoder);
   buffer[4] = (uint8_t)(int8_t)speed;
   buffer[5] = duration;
   buffer[6] = 0;      // command register B
@@ -313,8 +296,8 @@ void nxshieldSetEncoderSpeedTimeAndControlInBuffer(
  the control (a.k.a. command register A) */
 bool NXShieldBank::motorSetEncoderSpeedTimeAndControl(
   SH_Motor which_motors,  // Motor_ 1, 2, or Both
-  long    encoder,    // encoder/tachometer position
-  int    speed,      // speed, in range [-100, +100]
+  long encoder,    // encoder/tachometer position
+  int speed,      // speed, in range [-100, +100]
   uint8_t duration,    // in seconds
   uint8_t control)    // control flags
 {
@@ -322,15 +305,16 @@ bool NXShieldBank::motorSetEncoderSpeedTimeAndControl(
   {
     // The motor control registers are back to back, and both can be written in one command
     control &= ~SH_CONTROL_GO;  // Clear the 'go right now' flag
-    nxshieldSetEncoderSpeedTimeAndControlInBuffer(m_i2c_buffer + 0, encoder, speed, duration, control);
-    nxshieldSetEncoderSpeedTimeAndControlInBuffer(m_i2c_buffer + 8, encoder, speed, duration, control);
+    motorSetEncoderSpeedTimeAndControlInBuffer(m_buffer + 0, encoder, speed, duration, control);
+    motorSetEncoderSpeedTimeAndControlInBuffer(m_buffer + 8, encoder, speed, duration, control);
     bool success = writeRegisters(SH_SETPT_M1, 16);
     motorStartBothInSync();
     return success;
   }
 
   // Or, just issue the command for one motor
-  nxshieldSetEncoderSpeedTimeAndControlInBuffer(m_i2c_buffer, encoder, speed, duration, control);
+  motorSetEncoderSpeedTimeAndControlInBuffer(
+    m_buffer, encoder, speed, duration, control);
   uint8_t reg = (which_motors == SH_Motor_1) ? SH_SETPT_M1 : SH_SETPT_M2;
   return writeRegisters(reg, 8);
 }
@@ -360,21 +344,23 @@ uint8_t NXShieldBank::motorIsTimeDone(SH_Motor which_motors) {
       }
     }
   }
+  return (uint8_t)0;
 }
 
 /*! waited until a timed command finishes
 */
 uint8_t NXShieldBank::motorWaitUntilTimeDone(SH_Motor which_motors) {
   uint8_t s;
-  delay(50);  // this delay is required for the status byte to be available for reading.
+  // delay(50);  // this delay is required for the status byte to be available for reading.
   s = motorIsTimeDone(which_motors);
   while ((s & SH_STATUS_TIME) != 0) {
     if((s & SH_STATUS_STALL) != 0) {
       return SH_STATUS_STALL;
     }
-    delay (50);
+    // delay (50);
     s = motorIsTimeDone(which_motors);
   }
+  return (uint8_t)0;
 }
 
 /*! @brief True when a command based on using the motor encoder completes
@@ -402,20 +388,22 @@ uint8_t NXShieldBank::motorIsTachoDone(SH_Motor which_motors) {
       }
     }
   }
+  return 0;
 }
 
 // waited until a turn-by-degrees command ends
 uint8_t NXShieldBank::motorWaitUntilTachoDone(SH_Motor which_motors) {
   uint8_t s;
-  delay(50);  // this delay is required for the status byte to be available for reading.
+  // delay(50);  // this delay is required for the status byte to be available for reading.
   s = motorIsTachoDone(which_motors);
   while (( s & SH_STATUS_TACHO ) != 0 ) {
     if((s & SH_STATUS_STALL) != 0) {
       return SH_STATUS_STALL;
     }
-    delay(50);
+    // delay(50);
     s = motorIsTachoDone(which_motors);
   }
+  return 0;
 }
 
 
@@ -437,6 +425,8 @@ inline uint8_t calcNextActionBits(SH_Next_Action next_action) {
     return SH_CONTROL_BRK;
   } else if (next_action == SH_Next_Action_BrakeHold) {
     return SH_CONTROL_BRK | SH_CONTROL_ON;
+  } else {
+    return 0;
   }
 }
 
@@ -479,6 +469,8 @@ uint8_t NXShieldBank::motorRunSeconds(
   if(wait_for_completion == SH_Completion_Wait_For) {
     return motorWaitUntilTimeDone(which_motors);
   }
+
+  return 0;
 }
 
 /*! @brief runs the motors until the tachometer reaches a certain position
@@ -508,20 +500,19 @@ uint8_t NXShieldBank::motorRunTachometer(
   // If it is absolute, we ignore the direction parameter.
   long final_tach = tachometer;
 
-  if (relative == SH_Move_Relative)
-  {
+  if (relative == SH_Move_Relative) {
     ctrl |= SH_CONTROL_RELATIVE;
 
     // a (relative) forward command is always a positive tachometer reading
-    final_tach = abs(tachometer);
-    if (final_speed < 0)
-    {
+    final_tach = std::abs(tachometer);
+    if (final_speed < 0) {
       // and a (relative) reverse command is always negative
       final_tach = -final_tach;
     }
   }
 
-  motorSetEncoderSpeedTimeAndControl(which_motors, final_tach, final_speed, 0, ctrl);
+  motorSetEncoderSpeedTimeAndControl(
+    which_motors, final_tach, final_speed, (uint8_t)0, ctrl);
 
   if(wait_for_completion == SH_Completion_Wait_For) {
     s = motorWaitUntilTachoDone(which_motors);
@@ -577,7 +568,7 @@ uint8_t NXShieldBank::motorRunRotations(
     speed,
     360 * rotations,
     SH_Move_Relative,
-    wait_for_completion
+    wait_for_completion,
     next_action);
 }
 
@@ -593,7 +584,7 @@ bool NXShieldBank::motorStop(
     // The magic variables become clear in the user's guide
     uint8_t base_code = (next_action != SH_Next_Action_Float) ? 'A' - 1 : 'a' - 1;
 
-    return nxshieldIssueCommand(base_code + which_motors);
+    return issueCommand(base_code + which_motors);
   }
 
   setWriteErrorCode(5);  // bad parameters

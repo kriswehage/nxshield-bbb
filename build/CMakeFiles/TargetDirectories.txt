@@ -1,0 +1,4 @@
+/home/kristopher/Projects/robot/src/nxshield_bbb/build/CMakeFiles/edit_cache.dir
+/home/kristopher/Projects/robot/src/nxshield_bbb/build/CMakeFiles/nxshield_test.dir
+/home/kristopher/Projects/robot/src/nxshield_bbb/build/CMakeFiles/rebuild_cache.dir
+/home/kristopher/Projects/robot/src/nxshield_bbb/build/CMakeFiles/nxshield.dir

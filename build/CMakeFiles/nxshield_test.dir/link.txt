@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/nxshield_test.dir/application/motor_test.cpp.o  -o bin/nxshield_test -rdynamic libnxshield.a 

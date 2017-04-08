@@ -55,8 +55,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef NXShield_H
-#define NXShield_H
+#ifndef _NXSHIELD_H_
+#define _NXSHIELD_H_
 
 #include "SHDefines.h"
 
@@ -250,15 +250,25 @@ typedef enum {
 */
 #define SH_S2   2
 
-#include "NXShieldI2C.h"
+#include <stdint.h>
+#include <cmath>
+#include "BaseI2CDevice.h"
 
 /**
   @brief This class defines methods for the NXShield Bank(s).
   */
-class NXShieldBank : public NXShieldI2C {
+class NXShieldBank : public BaseI2CDevice {
+
 public:
-  /** Constructor for bank a of the nxshield device */
-  NXShieldBank(uint8_t i2c_address = SH_Bank_A);
+
+  /** Constructor for bank of nxshield */
+  NXShieldBank() : BaseI2CDevice() {
+
+  }
+
+  // void init(int file, uint8_t i2c_address) : BaseI2CDevice::init(int file, uint8_t i2c_address) {
+  //
+  // }
 
   /** Get the battery voltage (milli-volts) for this bank of the NXShield
     @return voltage value in milli-volts
@@ -267,13 +277,15 @@ public:
     The drop will be different based on where the power source is connected.
     (i.e. source through NXShield Green connector Vs Arduino black adapater Vs Arduino USB.)
     */
-  int nxshieldGetBatteryVoltage();
+  int getBatteryVoltage();
+
+
 
   /**
   Issue a command to this bank of the NXShield
   @param command Refer to user guide for list of commands.
   */
-  uint8_t nxshieldIssueCommand(char command);
+  uint8_t issueCommand(char command);
 
   //
   //  Motor Operation APIs.
@@ -283,6 +295,28 @@ public:
     @param target         Encode value to achieve
   */
   bool motorSetEncoderTarget(SH_Motor which_motor, long target);
+
+  void motorSetEncoderSpeedTimeAndControlInBuffer(
+    uint8_t* buffer,
+    long encoder,
+    int speed,
+    uint8_t duration,
+    uint8_t control);
+
+  bool motorSetEncoderSpeedTimeAndControl(
+    SH_Motor which_motors,  // Motor_ 1, 2, or Both
+    long encoder,    // encoder/tachometer position
+    int speed,      // speed, in range [-100, +100]
+    uint8_t duration,    // in seconds
+    uint8_t control);
+
+
+  // bool motorSetEncoderSpeedTimeAndControl(
+  //   SH_Motor which_motors,
+  //   long encoder,
+  //   int speed,
+  //   int8_t duration,
+  //   uint8_t control);
 
   /**
   Get the target encoder position for the motor
@@ -644,33 +678,33 @@ private:
 
 };
 
-/**
-  @brief NXShield has two banks. Bank B has few differences from Bank A.
-  This class defines overriding methods for the NXShield Bank B.
-  */
-class NXShieldBankB : public NXShieldBank
-{
-private:
-
-public:
-  /** constructor for bank be of the NXShield; optional custom i2c address can be supplied */
-  NXShieldBankB(uint8_t i2c_address_b = SH_Bank_B);
-
-  /**
-  Read the raw analog value from the sensor and return as an int
-  @param  which_sensor the sensor to read the raw value from
-  @return   raw value from the sensor
-  */
-  // int sensorReadRaw(uint8_t which_sensor);
-
-  /**
-  Set the sensor Type of the sensor on this bank
-  @param  which_sensor the sensor to set the type to.
-  @param  sensor_type     type value of the sensor,
-  refer to Advanced User Guide for available values of sensor types.
-  */
-  // bool sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
-};
+// /**
+//   @brief NXShield has two banks. Bank B has few differences from Bank A.
+//   This class defines overriding methods for the NXShield Bank B.
+//   */
+// class NXShieldBankB : public NXShieldBank
+// {
+// private:
+//
+// public:
+//   /** constructor for bank be of the NXShield; optional custom i2c address can be supplied */
+//   NXShieldBankB(uint8_t i2c_address_b = SH_Bank_B);
+//
+//   /**
+//   Read the raw analog value from the sensor and return as an int
+//   @param  which_sensor the sensor to read the raw value from
+//   @return   raw value from the sensor
+//   */
+//   // int sensorReadRaw(uint8_t which_sensor);
+//
+//   /**
+//   Set the sensor Type of the sensor on this bank
+//   @param  which_sensor the sensor to set the type to.
+//   @param  sensor_type     type value of the sensor,
+//   refer to Advanced User Guide for available values of sensor types.
+//   */
+//   // bool sensorSetType(uint8_t which_sensor, uint8_t sensor_type);
+// };
 
 
 /**
@@ -679,8 +713,11 @@ public:
 class NXShield {
 public:
 
+  /** class constructor for NXShield */
+  NXShield(const char* filename="/dev/i2c-2");
+
   /*! @brief file pointer for i2c device */
-  int file;
+  int m_file;
 
   /**
   Global variable representing the i2c protocol to use; whether software or hardware
@@ -689,14 +726,13 @@ public:
 
   /** Variable for the bank_a of NXShield
   */
-  NXShieldBank bank_a;
+  NXShieldBank m_bankA;
 
   /** Variable for the bank_b of NXShield
   */
-  NXShieldBankB bank_b;
+  NXShieldBank m_bankB;
 
-  /** class constructor for NXShield; optional custom i2c addresses may be supplied for both banks */
-  NXShield(const char* filename);
+
 
   /**
   the initialization of the NXShield;
@@ -708,14 +744,7 @@ public:
   /**
   the initialization of the NXShield LED timers.
   */
-	// void initLEDTimers();
-
-  /**
-  the initialization of NXShield communication protocols.
-  @param protocol optional, specify the i2c protocol to use for the NXShield and highspeed i2c port
-  */
-	void initProtocols(SH_Protocols protocol=SH_HardwareI2C);
-
+	void initLEDTimers();
 
   /**
   Get the button state of the specific button on NXShield.

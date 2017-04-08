@@ -43,8 +43,14 @@ bool BaseI2CDevice::m_initialized = false;
 
 /*! @brief constructor for BaseI2CDevice
 */
-BaseI2CDevice::BaseI2CDevice(int file, uint8_t i2c_address) {
+BaseI2CDevice::BaseI2CDevice() {
   m_initialized = false;
+}
+
+/*! @brief reinitialize i2c device with a possibly different address
+*/
+void BaseI2CDevice::init(int file, uint8_t i2c_address) {
+
   m_device_address = i2c_address;
   m_buffer = (uint8_t*) calloc(BUFFER_LEN, sizeof(uint8_t));
   m_file = file;
@@ -54,11 +60,7 @@ BaseI2CDevice::BaseI2CDevice(int file, uint8_t i2c_address) {
     exit(1);
   }
   m_initialized = true;
-}
 
-/*! @brief reinitialize i2c device with a possibly different address
-*/
-void BaseI2CDevice::init(uint8_t i2c_address) {
   if(m_device_address == i2c_address) {
     return;
   } else {
@@ -78,7 +80,7 @@ void BaseI2CDevice::setPointer(uint8_t i2c_address) {
   m_buffer[0] = i2c_address;
 
   if(write(m_file, m_buffer, 1) != 1) {
-    fprintf(stderr, "Error setting pointer\n");
+    std::cerr << "Error setting pointer" << std::endl;
   }
 }
 

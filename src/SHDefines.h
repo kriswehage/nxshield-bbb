@@ -22,25 +22,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef SHDEFINES_H
-#define SHDEFINES_H
-
-#if defined(__AVR__)
-  #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega8__) || defined(__AVR_ATmega328P__) 
-      #define MODEL_NXSHIELD_D
-  #else
-      #define MODEL_NXSHIELD_M
-  #endif
-
-#elif defined(__PIC32MX__)
-
-  #if defined(_BOARD_UNO_) 
-      #define MODEL_NXSHIELD_D
-  #elif defined(_BOARD_MEGA_)
-      #define MODEL_NXSHIELD_M
-  #endif
-
-#endif
+#ifndef _SHDEFINES_H_
+#define _SHDEFINES_H_
 
 
 /**
@@ -58,7 +41,7 @@ typedef enum {
   \enum SH_Protocols Protocol enums - to initialize your NXShield with appropriate protocol.
 */
 typedef enum {
-  SH_HardwareI2C  = 0,  /*!< It's best to use hardware i2c as it is faster, (but it does not work with Ultrasonic Sensor). */
+  SH_HardwareI2C = 0,  /*!< It's best to use hardware i2c as it is faster, (but it does not work with Ultrasonic Sensor). */
   SH_SoftwareI2C,  /*!< Software I2C is slower, and designed to work with Ultrasonic sensor.  */
 } SH_Protocols;
 
@@ -97,8 +80,7 @@ typedef enum {
   #define LED_RED  16
   #define LED_GREEN  15
   #define LED_BLUE  14
-  
-#endif
 
 #endif
 
+#endif
