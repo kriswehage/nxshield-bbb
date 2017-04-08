@@ -1,0 +1,2 @@
+cmd: git add -A && git commit -m \"update\" && git push && ssh 10.0.1.5 'cd nxshield_bbb && mkdir -p build && cd build && cmake .. && make'
+sh: true

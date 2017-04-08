@@ -46,7 +46,10 @@ int main(int argc, char **argv) {
   nxshield.m_bankA.motorReset();
   nxshield.m_bankB.motorReset();
 
-  int32_t enc_a_1, enc_a_2, enc_b_1, enc_b_2;
+  int32_t enc_a_1 = 0;
+  int32_t enc_a_2 = 0;
+  int32_t enc_b_1 = 0;
+  int32_t enc_b_2 = 0;
 
   /* repeat test n times */
   int n = 3;
