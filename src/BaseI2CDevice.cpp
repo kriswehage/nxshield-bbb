@@ -30,7 +30,7 @@ int BaseI2CDevice::init(const char * filename, int addr) {
     exit(1);
   }
 
-  if (ioctl(file,I2C_SLAVE,addr) < 0) {
+  if(ioctl(file, I2C_SLAVE, addr) < 0) {
     printf("Failed to acquire bus access and/or talk to slave.\n");
     /* ERROR HANDLING; you can check errno to see what went wrong */
     exit(1);
