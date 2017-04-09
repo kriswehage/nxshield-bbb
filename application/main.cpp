@@ -45,9 +45,9 @@ int main() {
     } else if (buff == "getEP" || buff == "gp") {
       m1->read_encoderPosition();
     } else if (buff == "dump") {
-      m1->i2c->dump(true);
+      m1->m_i2c->dump(true);
     } else if (buff == "dump_int") {
-      m1->i2c->dump(false);
+      m1->m_i2c->dump(false);
     } else if (buff == "reset") {
       m1->reset_encoder();
       std::cout << "reset" << std::endl;
