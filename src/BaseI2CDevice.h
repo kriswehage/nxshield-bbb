@@ -23,8 +23,9 @@ class BaseI2CDevice {
 		private:
 
 			void set_address(int);
-			int file;
-			unsigned char buf[10];
+			int m_file;
+			unsigned char m_buffer[10];
+			bool m_initialized;
 
 };
 
