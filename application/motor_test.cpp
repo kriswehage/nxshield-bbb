@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 
       printf(
         "Encoder values bank A: %d, %d, bank B: %d, %d\n",
-        enc_a_1, enc_a_2, enc_b_1, enc_b_2);
+        (int)enc_a_1, (int)enc_a_2, (int)enc_b_1, (int)enc_b_2);
 
       delay(delay_val);
     }
@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 
       printf(
         "Encoder values bank A: %d, %d, bank B: %d, %d\n",
-        enc_a_1, enc_a_2, enc_b_1, enc_b_2);
+        (int)enc_a_1, (int)enc_a_2, (int)enc_b_1, (int)enc_b_2);
 
       delay(delay_val);
     }
