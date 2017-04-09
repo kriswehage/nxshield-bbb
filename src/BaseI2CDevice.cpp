@@ -82,7 +82,7 @@ unsigned char* BaseI2CDevice::get_bytes(int add1, int bytes) {
 @brief Get ulong value at address
 */
 uint32_t BaseI2CDevice::get_ulong(int add1) {
-  set_pointer(add1); 
+  set_pointer(add1);
 
   unsigned char* buf = get_bytes(add1, 4);
   return ((uint32_t*)buf)[0];
@@ -184,7 +184,7 @@ std::string BaseI2CDevice::get_string(int start, int stop) {
   int n;
   std::string final_string;
   for (n = start; n < stop + 1; n++) {
-    final_string.append(1, get_byte(n));
+    final_string.append(1, get_byte(n)[0]);
   }
   return(final_string);
 }
