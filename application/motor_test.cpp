@@ -63,10 +63,11 @@ int main(int argc, char **argv) {
   for(int i = 0; i < n; i++) {
 
     printf("run unlimited\n");
-    nxshield.m_bankB.motorRunUnlimited(SH_Motor_1, SH_Direction_Forward, 50);
-    nxshield.m_bankB.motorRunUnlimited(SH_Motor_2, SH_Direction_Forward, 50);
     nxshield.m_bankA.motorRunUnlimited(SH_Motor_1, SH_Direction_Forward, 50);
     nxshield.m_bankA.motorRunUnlimited(SH_Motor_2, SH_Direction_Forward, 50);
+    nxshield.m_bankB.motorRunUnlimited(SH_Motor_1, SH_Direction_Forward, 50);
+    nxshield.m_bankB.motorRunUnlimited(SH_Motor_2, SH_Direction_Forward, 50);
+
 
     for(int j = 0; j < polling_count; j++) {
       enc_a_1 = nxshield.m_bankA.motorGetEncoderPosition(SH_Motor_1);
@@ -76,7 +77,7 @@ int main(int argc, char **argv) {
 
       printf(
         "Encoder values bank A: %d, %d, bank B: %d, %d\n",
-        enc_a_1, enc_a_2, enc_b_1, enc_b_2);
+        (int)enc_a_1, (int)enc_a_2, (int)enc_b_1, (int)enc_b_2);
 
       delay(delay_val);
     }
@@ -96,7 +97,7 @@ int main(int argc, char **argv) {
 
       printf(
         "Encoder values bank A: %d, %d, bank B: %d, %d\n",
-        enc_a_1, enc_a_2, enc_b_1, enc_b_2);
+        (int)enc_a_1, (int)enc_a_2, (int)enc_b_1, (int)enc_b_2);
 
       delay(delay_val);
     }

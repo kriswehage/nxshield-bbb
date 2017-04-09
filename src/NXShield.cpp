@@ -443,7 +443,8 @@ void NXShieldBank::motorRunUnlimited(
 
   uint8_t ctrl = SH_CONTROL_SPEED | SH_CONTROL_GO;
   int sp = calcFinalSpeed(speed, direction);
-  motorSetSpeedTimeAndControl(which_motors, sp, 0, ctrl);
+  bool retVal = motorSetSpeedTimeAndControl(which_motors, sp, 0, ctrl);
+  printf("return value: %s\n", retVal ? "true":"false");
 }
 
 /*! @brief runs the motors for a given number of seconds
@@ -495,7 +496,7 @@ uint8_t NXShieldBank::motorRunTachometer(
   uint8_t ctrl = SH_CONTROL_SPEED | SH_CONTROL_TACHO | SH_CONTROL_GO;
   ctrl |= calcNextActionBits(next_action);
   int final_speed = calcFinalSpeed(speed, direction);
-  uint8_t s;
+  uint8_t s = 0;
 
   // The tachometer can be absolute or relative.
   // If it is absolute, we ignore the direction parameter.
