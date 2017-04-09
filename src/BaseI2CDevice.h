@@ -20,7 +20,7 @@ class BaseI2CDevice {
     unsigned char get_char(int);
 		uint16_t get_uint(int);
 		int16_t get_int(int);
-		uint32_t get_long(int);
+		uint32_t get_ulong(int);
 		int32_t get_long(int);
     void set_byte(int, int);
     void dump(bool as_hex=false);
