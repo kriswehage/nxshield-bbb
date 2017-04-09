@@ -105,6 +105,33 @@ void NxBank::add_motor1() {
 
 }
 
+void NxBank::add_motor2() {
+  motor2.m_i2c = &m_i2c;
+
+  motor2.resetCommand = 0x72;
+  motor2.brakeCommand = 0x41;
+  motor2.floatCommand = 0x61;
+
+  motor2.reg_command = 0x49;
+  motor2.reg_time = 0x47;
+  motor2.reg_speed = 0x46;
+
+  motor2.reg_status = 0x73;
+  motor2.reg_tasks = 0x77;
+
+  motor2.reg_encTarget[0] = 0x4A;
+  motor2.reg_encTarget[1] = 0x4B;
+  motor2.reg_encTarget[2] = 0x4C;
+  motor2.reg_encTarget[3] = 0x4D;
+
+  motor2.reg_encPosition[0] = 0x66;
+  motor2.reg_encPosition[1] = 0x67;
+  motor2.reg_encPosition[2] = 0x68;
+  motor2.reg_encPosition[3] = 0x69;
+
+}
+
+
 NxShield::NxShield() {
   bankA_address = 0x03;
   bankB_address = 0x04;

@@ -87,43 +87,43 @@
 class NxMotor {
   public:
     BaseI2CDevice* m_i2c;
-    unsigned int resetCommand;
-    unsigned int brakeCommand;
-    unsigned int floatCommand;
-    unsigned int runCommand;
+    unsigned char m_resetCommand;
+    unsigned char m_brakeCommand;
+    unsigned char m_floatCommand;
+    unsigned char m_runCommand;
 
-    unsigned int speed;
-    unsigned int time;
+    unsigned char m_speed;
+    unsigned char m_time;
 
-    unsigned char reg_encTarget[4];
-    unsigned char reg_encPosition[4];
-    unsigned int reg_speed;
-    unsigned int reg_time;
-    unsigned int reg_command;
-    unsigned int reg_status;
-    unsigned int reg_tasks;
+    unsigned char m_reg_encTarget[4];
+    unsigned char m_reg_encPosition[4];
+    unsigned char m_reg_speed;
+    unsigned char m_reg_time;
+    unsigned char m_reg_command;
+    unsigned char m_reg_status;
+    unsigned char m_reg_tasks;
 
     NxMotor();
-    unsigned int read_encoderTarget();
-    void write_encoderTarget(unsigned int);
-    unsigned int read_encoderPosition();
+    int read_encoderTarget();
+    void write_encoderTarget(int);
+    int read_encoderPosition();
     void reset_encoder();
     void set_time(unsigned int);
-    void set_speed(unsigned int);
+    void set_speed(int);
     void run(const char*);
     void stop(bool brake=false);
 };
 
 class NxBank {
   public:
-    unsigned int address;
-    char firmware[9];
-    char vendorID[9];
-    char deviceID[9];
+    unsigned int m_address;
+    char m_firmware[9];
+    char m_vendorID[9];
+    char m_deviceID[9];
 
     BaseI2CDevice m_i2c;
-    NxMotor motor1;
-    NxMotor motor2;
+    NxMotor m_motor1;
+    NxMotor m_motor2;
 
     void add_motor1();
     void add_motor2();
@@ -131,16 +131,27 @@ class NxBank {
 
 class NxShield {
   public:
-    unsigned int bankA_address;
-    unsigned int bankB_address;
+    unsigned char m_bankA_address;
+    unsigned char m_bankB_address;
     const char* filename;
 
-    NxBank bankA;
-    NxBank bankB;
+    NxBank m_bankA;
+    NxBank m_bankB;
 
     NxShield();
     void init_bankA();
     void init_bankB();
+
+  private:
+
+    /* register addresses */
+    unsigned char m_position_Kp = 0x7a;
+    unsigned char m_position_Ki = 0x7c;
+    unsigned char m_position_Kd = 0x7e;
+    unsigned char m_speed_Kp = 0x80;
+    unsigned char m_speed_Ki = 0x82;
+    unsigned char m_speed_Kd = 0x84;
+
 };
 
 
