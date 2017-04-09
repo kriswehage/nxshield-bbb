@@ -86,7 +86,7 @@
 
 class nxmotor {
   public:
-    i2c_module* i2c;
+    BaseI2Device* i2c;
     //self.writeRegister = {}
     //self.readRegister = {}
     unsigned int resetCommand;
