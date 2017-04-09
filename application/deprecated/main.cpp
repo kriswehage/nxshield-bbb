@@ -7,8 +7,7 @@
 
 #include "nxtalk.h"
 
-int main()
-{
+int main() {
    nxshield nx;
    nx.init_bankA();
    nx.bankA.add_motor1();
@@ -71,23 +70,4 @@ int main()
     }
 
    }
-
-
 }
-//   m1->set_time(5);
-//   m1->set_speed(10);
-//   m1->run("11110001");
-//   m1->run("10000001");
-
-   //m1->stop();
-
-//   uint8_t buffer[4] = {b4, b3, b2, b1};
-//   uint32_t x = buffer[3] * 256 * 256 * 256
-//           + buffer[2] * 256 * 256
-//           + buffer[1] * 256
-//           + buffer[0];
-//
-//   nx.bankB.i2c.dump(true);
-//   cout << nx.bankA.firmware << endl;
-//   cout << nx.bankA.vendorID << endl;
-//   cout << nx.bankA.deviceID << endl;

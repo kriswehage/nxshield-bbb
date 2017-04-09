@@ -1,7 +1,7 @@
 #ifndef NXTALK_H
 #define NXTALK_H
 
-#include "i2c_utils.h"
+#include "BasI2CDevice.h"
 
 #define MMX_CONTROL_SPEED      0x01
 #define MMX_CONTROL_RAMP       0x02
