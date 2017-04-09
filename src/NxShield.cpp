@@ -8,44 +8,39 @@
 #include "NxShield.h"
 
 NxMotor::NxMotor() {
-  runCommand = 0xff;
-  resetCommand = 0x72;
-  brakeCommand = 0x41;
-  floatCommand = 0x61;
-  time = 0;
-  speed = 0;
+  m_runCommand = 0xff;
+  m_resetCommand = 0x72;
+  m_brakeCommand = 0x41;
+  m_floatCommand = 0x61;
+  m_time = 0;
+  m_speed = 0;
 }
 
 // writes an unsigned long int to the encoder target
 void NxMotor::write_encoderTarget(unsigned int target) {
   char *somechars = (char*)&target;
 
-  m_i2c->set_byte(reg_encTarget[0], somechars[0]);
-  m_i2c->set_byte(reg_encTarget[1], somechars[1]);
-  m_i2c->set_byte(reg_encTarget[2], somechars[2]);
-  m_i2c->set_byte(reg_encTarget[3], somechars[3]);
+  m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
+  m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
+  m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
+  m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
 }
 
 // reads the last encoder target
 unsigned int NxMotor::read_encoderTarget() {
-  unsigned char b1,b2,b3,b4;
-  b1 = m_i2c->get_byte(reg_encTarget[0]);
-  b2 = m_i2c->get_byte(reg_encTarget[1]);
-  b3 = m_i2c->get_byte(reg_encTarget[2]);
-  b4 = m_i2c->get_byte(reg_encTarget[3]);
-  unsigned int target = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
-  printf("Encoder Target: %i\n", target);
-  return(target);
+  return m_i2c->get_long(reg_encTarget[0]);
+  // b1 = m_i2c->get_byte(m_reg_encTarget[0]);
+  // b2 = m_i2c->get_byte(m_reg_encTarget[1]);
+  // b3 = m_i2c->get_byte(m_reg_encTarget[2]);
+  // b4 = m_i2c->get_byte(m_reg_encTarget[3]);
+  // unsigned int target = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
+  // printf("Encoder Target: %i\n", target);
+  // return(target);
 }
 
 // reads the current encoder position
 int NxMotor::read_encoderPosition() {
-  unsigned char b1, b2, b3, b4;
-  b1 = m_i2c->get_bytes(reg_encPosition[0], 4);
-  int position = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
-
-  printf("Encoder Position: %i\n", position);
-  return(position);
+  return m_i2c->get_long(reg_encPosition[0]);
 }
 
 // resets the encoder
@@ -90,10 +85,10 @@ void NxBank::add_motor1() {
   m_motor1.reg_status = 0x72;
   m_motor1.reg_tasks = 0x76;
 
-  m_motor1.reg_encTarget[0] = 0x42;
-  m_motor1.reg_encTarget[1] = 0x43;
-  m_motor1.reg_encTarget[2] = 0x44;
-  m_motor1.reg_encTarget[3] = 0x45;
+  m_motor1.m_reg_encTarget[0] = 0x42;
+  m_motor1.m_reg_encTarget[1] = 0x43;
+  m_motor1.m_reg_encTarget[2] = 0x44;
+  m_motor1.m_reg_encTarget[3] = 0x45;
 
   m_motor1.reg_encPosition[0] = 0x62;
   m_motor1.reg_encPosition[1] = 0x63;
@@ -116,10 +111,10 @@ void NxBank::add_motor2() {
   m_motor2.reg_status = 0x73;
   m_motor2.reg_tasks = 0x77;
 
-  m_motor2.reg_encTarget[0] = 0x4A;
-  m_motor2.reg_encTarget[1] = 0x4B;
-  m_motor2.reg_encTarget[2] = 0x4C;
-  m_motor2.reg_encTarget[3] = 0x4D;
+  m_motor2.m_reg_encTarget[0] = 0x4A;
+  m_motor2.m_reg_encTarget[1] = 0x4B;
+  m_motor2.m_reg_encTarget[2] = 0x4C;
+  m_motor2.m_reg_encTarget[3] = 0x4D;
 
   m_motor2.reg_encPosition[0] = 0x66;
   m_motor2.reg_encPosition[1] = 0x67;
