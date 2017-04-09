@@ -86,7 +86,7 @@
 
 class NxMotor {
   public:
-    BaseI2Device* i2c;
+    BaseI2CDevice* m_i2c;
     unsigned int resetCommand;
     unsigned int brakeCommand;
     unsigned int floatCommand;
@@ -121,7 +121,7 @@ class NxBank {
     char vendorID[9];
     char deviceID[9];
 
-    BaseI2CDevice i2c;
+    BaseI2CDevice m_i2c;
     NxMotor motor1;
     NxMotor motor2;
 
