@@ -25,7 +25,7 @@ class BaseI2CDevice {
 
 	private:
 
-		void set_address(int);
+		void set_pointer(int);
 		int m_file;
 		unsigned char m_buffer[10];
 		bool m_initialized;
