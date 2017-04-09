@@ -24,27 +24,27 @@
 @brief Initializes I2Cdevice
 */
 int BaseI2CDevice::init(const char * filename, int addr) {
-  if((file = open(filename, O_RDWR)) < 0) {
+  if((m_file = open(filename, O_RDWR)) < 0) {
     printf("Failed to open the bus.");
     /* ERROR HANDLING; you can check errno to see what went wrong */
     exit(1);
   }
 
-  if(ioctl(file, I2C_SLAVE, addr) < 0) {
+  if (ioctl(m_file, I2C_SLAVE, addr) < 0) {
     printf("Failed to acquire bus access and/or talk to slave.\n");
     /* ERROR HANDLING; you can check errno to see what went wrong */
     exit(1);
   }
-  return file;
+  return m_file;
 }
 
 /*!
 @brief Set pointer to address
 */
 void BaseI2CDevice::set_pointer(int address) {
-  buf[0] = address;
+  m_buffer[0] = address;
 
-  if(write(file, buf, 1) != 1) {
+  if(write(m_file, m_buffer, 1) != 1) {
     fprintf(stderr, "Error setting pointer\n");
   }
 }
@@ -55,11 +55,11 @@ void BaseI2CDevice::set_pointer(int address) {
 unsigned char BaseI2CDevice::get_byte(int add1) {
   set_pointer(add1);
 
-  if (read(file, buf, 1) != 1){
+  if (read(m_file, m_buffer, 1) != 1){
     fprintf(stderr, "Error reading %i bytes\n",1);
     exit(1);
   } else {
-    return buf[0];
+    return m_buffer[0];
   }
 }
 
@@ -70,9 +70,9 @@ FiX: For consistency, this function should take unsigned char addresses.
 However, we need to make sure that this indeed makes sense.
 */
 void BaseI2CDevice::set_byte(int address, int value) {
-  buf[0] = address;
-  buf[1] = value;
-  if (write(file, buf, 2) != 2) {
+  m_buffer[0] = address;
+  m_buffer[1] = value;
+  if (write(m_file, m_buffer, 2) != 2) {
     fprintf(stderr, "Error writing %i bytes\n", 1);
   }
 }
