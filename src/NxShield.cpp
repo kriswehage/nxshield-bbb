@@ -7,8 +7,6 @@
 
 #include "NxShield.h"
 
-
-
 NxMotor::NxMotor() {
   runCommand = 0xff;
   resetCommand = 0x72;
