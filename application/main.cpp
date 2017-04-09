@@ -5,14 +5,14 @@
 #include <iostream>
 #include <sstream>
 
-#include "nxtalk.h"
+#include <NxShield.h>
 
 int main() {
-   nxshield nx;
+   NxShield nx;
    nx.init_bankA();
    nx.bankA.add_motor1();
 
-   nxmotor* m1 = &nx.bankA.motor1;
+   NxMotor* m1 = &nx.bankA.motor1;
 
    std::string buff;
    unsigned long int_buff = 0;
