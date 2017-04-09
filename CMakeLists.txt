@@ -30,7 +30,7 @@ include_directories(
 ## build static library ###
 add_library(nxshield STATIC
     ${bbb_robot_SOURCE_DIR}/src/BaseI2CDevice.cpp
-    ${bbb_robot_SOURCE_DIR}/src/NXShield.cpp
+    ${bbb_robot_SOURCE_DIR}/src/NxShield.cpp
 )
 
 include_directories(
