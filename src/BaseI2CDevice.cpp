@@ -52,16 +52,74 @@ void BaseI2CDevice::set_pointer(int address) {
 /*!
 @brief Get byte value at address
 */
-unsigned char BaseI2CDevice::get_byte(int add1) {
+unsigned char* BaseI2CDevice::get_byte(int add1) {
   set_pointer(add1);
 
   if (read(m_file, m_buffer, 1) != 1){
     fprintf(stderr, "Error reading %i bytes\n",1);
     exit(1);
   } else {
-    return m_buffer[0];
+    return m_buffer;
   }
 }
+
+/*!
+@brief Get byte value at address
+*/
+unsigned char* BaseI2CDevice::get_bytes(int add1, int bytes) {
+  set_pointer(add1);
+
+  if (read(m_file, m_buffer, bytes) != bytes){
+    fprintf(stderr, "Error reading %i bytes\n", bytes);
+    exit(1);
+  } else {
+    return m_buffer;
+  }
+}
+
+
+/*!
+@brief Get ulong value at address
+*/
+uint32_t BaseI2CDevice::get_ulong(int add1) {
+  set_pointer(add1);
+
+  unsigned char* buf = get_bytes(add1, 4);
+  return ((uint32_t*)buf)[0];
+}
+
+
+/*!
+@brief Get long value at address
+*/
+int32_t BaseI2CDevice::get_long(int add1) {
+  set_pointer(add1);
+
+  unsigned char* buf = get_bytes(add1, 4);
+  return ((int32_t*)buf)[0];
+}
+
+/*!
+@brief Get uint value at address
+*/
+uint16_t BaseI2CDevice::get_uint(int add1) {
+  set_pointer(add1);
+
+  unsigned char* buf = get_bytes(add1, 2);
+  return ((uint16_t*)buf)[0];
+}
+
+
+/*!
+@brief Get int at address
+*/
+int16_t BaseI2CDevice::get_int(int add1) {
+  set_pointer(add1);
+
+  unsigned char* buf = get_bytes(add1, 2);
+  return ((int16_t*)buf)[0];
+}
+
 
 /*!
 @brief Set byte value at address
@@ -121,10 +179,11 @@ void BaseI2CDevice::dump(bool as_hex) {
   printf("\n");
 }
 
+
 std::string BaseI2CDevice::get_string(int start, int stop) {
   int n;
   std::string final_string;
-  for (n = start; n < stop+1; n++) {
+  for (n = start; n < stop + 1; n++) {
     final_string.append(1, get_byte(n));
   }
   return(final_string);

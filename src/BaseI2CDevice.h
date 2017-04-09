@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <inttypes.h>
 
 
 class BaseI2CDevice {
@@ -15,10 +16,12 @@ class BaseI2CDevice {
 		};
     int init(const char*, int);
     unsigned char get_byte(int);
+		unsigned char get_bytes(int, int);
     unsigned char get_char(int);
-		unsigned int get_uint(int);
-		int get_int(int);
-		unsigned long get_long(int);
+		uint16_t get_uint(int);
+		int16_t get_int(int);
+		uint32_t get_long(int);
+		int32_t get_long(int);
     void set_byte(int, int);
     void dump(bool as_hex=false);
     std::string get_string(int, int);

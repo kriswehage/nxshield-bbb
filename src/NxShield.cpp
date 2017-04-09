@@ -39,13 +39,10 @@ unsigned int NxMotor::read_encoderTarget() {
 }
 
 // reads the current encoder position
-unsigned int NxMotor::read_encoderPosition() {
+int NxMotor::read_encoderPosition() {
   unsigned char b1, b2, b3, b4;
-  b1 = m_i2c->get_byte(reg_encPosition[0]);
-  b2 = m_i2c->get_byte(reg_encPosition[1]);
-  b3 = m_i2c->get_byte(reg_encPosition[2]);
-  b4 = m_i2c->get_byte(reg_encPosition[3]);
-  unsigned int position = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
+  b1 = m_i2c->get_bytes(reg_encPosition[0], 4);
+  int position = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
 
   printf("Encoder Position: %i\n", position);
   return(position);
@@ -80,54 +77,54 @@ void NxMotor::stop(bool brake) {
 
 // adds the motor1 to the bank from which the method is called
 void NxBank::add_motor1() {
-  motor1.m_i2c = &m_i2c;
+  m_motor1.m_i2c = &m_i2c;
 
-  motor1.resetCommand = 0x72;
-  motor1.brakeCommand = 0x41;
-  motor1.floatCommand = 0x61;
+  m_motor1.resetCommand = 0x72;
+  m_motor1.brakeCommand = 0x41;
+  m_motor1.floatCommand = 0x61;
 
-  motor1.reg_command = 0x49;
-  motor1.reg_time = 0x47;
-  motor1.reg_speed = 0x46;
+  m_motor1.reg_command = 0x49;
+  m_motor1.reg_time = 0x47;
+  m_motor1.reg_speed = 0x46;
 
-  motor1.reg_status = 0x72;
-  motor1.reg_tasks = 0x76;
+  m_motor1.reg_status = 0x72;
+  m_motor1.reg_tasks = 0x76;
 
-  motor1.reg_encTarget[0] = 0x42;
-  motor1.reg_encTarget[1] = 0x43;
-  motor1.reg_encTarget[2] = 0x44;
-  motor1.reg_encTarget[3] = 0x45;
+  m_motor1.reg_encTarget[0] = 0x42;
+  m_motor1.reg_encTarget[1] = 0x43;
+  m_motor1.reg_encTarget[2] = 0x44;
+  m_motor1.reg_encTarget[3] = 0x45;
 
-  motor1.reg_encPosition[0] = 0x62;
-  motor1.reg_encPosition[1] = 0x63;
-  motor1.reg_encPosition[2] = 0x64;
-  motor1.reg_encPosition[3] = 0x65;
+  m_motor1.reg_encPosition[0] = 0x62;
+  m_motor1.reg_encPosition[1] = 0x63;
+  m_motor1.reg_encPosition[2] = 0x64;
+  m_motor1.reg_encPosition[3] = 0x65;
 
 }
 
 void NxBank::add_motor2() {
-  motor2.m_i2c = &m_i2c;
+  m_motor2.m_i2c = &m_i2c;
 
-  motor2.resetCommand = 0x72;
-  motor2.brakeCommand = 0x41;
-  motor2.floatCommand = 0x61;
+  m_motor2.resetCommand = 0x72;
+  m_motor2.brakeCommand = 0x41;
+  m_motor2.floatCommand = 0x61;
 
-  motor2.reg_command = 0x49;
-  motor2.reg_time = 0x47;
-  motor2.reg_speed = 0x46;
+  m_motor2.reg_command = 0x49;
+  m_motor2.reg_time = 0x47;
+  m_motor2.reg_speed = 0x46;
 
-  motor2.reg_status = 0x73;
-  motor2.reg_tasks = 0x77;
+  m_motor2.reg_status = 0x73;
+  m_motor2.reg_tasks = 0x77;
 
-  motor2.reg_encTarget[0] = 0x4A;
-  motor2.reg_encTarget[1] = 0x4B;
-  motor2.reg_encTarget[2] = 0x4C;
-  motor2.reg_encTarget[3] = 0x4D;
+  m_motor2.reg_encTarget[0] = 0x4A;
+  m_motor2.reg_encTarget[1] = 0x4B;
+  m_motor2.reg_encTarget[2] = 0x4C;
+  m_motor2.reg_encTarget[3] = 0x4D;
 
-  motor2.reg_encPosition[0] = 0x66;
-  motor2.reg_encPosition[1] = 0x67;
-  motor2.reg_encPosition[2] = 0x68;
-  motor2.reg_encPosition[3] = 0x69;
+  m_motor2.reg_encPosition[0] = 0x66;
+  m_motor2.reg_encPosition[1] = 0x67;
+  m_motor2.reg_encPosition[2] = 0x68;
+  m_motor2.reg_encPosition[3] = 0x69;
 
 }
 
