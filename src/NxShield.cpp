@@ -108,7 +108,7 @@ void NxBank::add_motor1() {
 NxShield::NxShield() {
   bankA_address = 0x03;
   bankB_address = 0x04;
-  filename = "/dev/m_i2c-2";
+  filename = "/dev/i2c-2";
 }
 
 // initializes bankA
