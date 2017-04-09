@@ -19,7 +19,7 @@
 
 #include "BaseI2CDevice.h"
 
-
+ 
 /*!
 @brief Initializes I2Cdevice
 */
