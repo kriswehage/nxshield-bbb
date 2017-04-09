@@ -20,19 +20,19 @@ NxMotor::NxMotor() {
 void NxMotor::write_encoderTarget(unsigned int target) {
   char *somechars = (char*)&target;
 
-  i2c->set_byte(reg_encTarget[0], somechars[0]);
-  i2c->set_byte(reg_encTarget[1], somechars[1]);
-  i2c->set_byte(reg_encTarget[2], somechars[2]);
-  i2c->set_byte(reg_encTarget[3], somechars[3]);
+  m_i2c->set_byte(reg_encTarget[0], somechars[0]);
+  m_i2c->set_byte(reg_encTarget[1], somechars[1]);
+  m_i2c->set_byte(reg_encTarget[2], somechars[2]);
+  m_i2c->set_byte(reg_encTarget[3], somechars[3]);
 }
 
 // reads the last encoder target
 unsigned int NxMotor::read_encoderTarget() {
   unsigned char b1,b2,b3,b4;
-  b1 = i2c->get_byte(reg_encTarget[0]);
-  b2 = i2c->get_byte(reg_encTarget[1]);
-  b3 = i2c->get_byte(reg_encTarget[2]);
-  b4 = i2c->get_byte(reg_encTarget[3]);
+  b1 = m_i2c->get_byte(reg_encTarget[0]);
+  b2 = m_i2c->get_byte(reg_encTarget[1]);
+  b3 = m_i2c->get_byte(reg_encTarget[2]);
+  b4 = m_i2c->get_byte(reg_encTarget[3]);
   unsigned int target = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
   printf("Encoder Target: %i\n", target);
   return(target);
@@ -41,10 +41,10 @@ unsigned int NxMotor::read_encoderTarget() {
 // reads the current encoder position
 unsigned int NxMotor::read_encoderPosition() {
   unsigned char b1, b2, b3, b4;
-  b1 = i2c->get_byte(reg_encPosition[0]);
-  b2 = i2c->get_byte(reg_encPosition[1]);
-  b3 = i2c->get_byte(reg_encPosition[2]);
-  b4 = i2c->get_byte(reg_encPosition[3]);
+  b1 = m_i2c->get_byte(reg_encPosition[0]);
+  b2 = m_i2c->get_byte(reg_encPosition[1]);
+  b3 = m_i2c->get_byte(reg_encPosition[2]);
+  b4 = m_i2c->get_byte(reg_encPosition[3]);
   unsigned int position = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
 
   printf("Encoder Position: %i\n", position);
@@ -53,15 +53,15 @@ unsigned int NxMotor::read_encoderPosition() {
 
 // resets the encoder
 void NxMotor::reset_encoder() {
-  i2c->set_byte(0x41, resetCommand);
+  m_i2c->set_byte(0x41, resetCommand);
 }
 
 void NxMotor::set_time(unsigned int value) {
-  i2c->set_byte(reg_time, value);
+  m_i2c->set_byte(reg_time, value);
 }
 
 void NxMotor::set_speed(unsigned int value) {
-  i2c->set_byte(reg_speed, value);
+  m_i2c->set_byte(reg_speed, value);
 }
 
 // takes a bit string such as '10000110' where each bit refers to a command
@@ -69,18 +69,18 @@ void NxMotor::set_speed(unsigned int value) {
 void NxMotor::run(const char* comm) {
   int command_num = strtoul(comm, NULL, 2);
   std::cout << "Set run command " << comm << " or " << command_num << std::endl;
-  i2c->set_byte(reg_command, command_num);
+  m_i2c->set_byte(reg_command, command_num);
 }
 
 // stops the motor
 void NxMotor::stop(bool brake) {
-  if (brake) {i2c->set_byte(0x41, brakeCommand);}
-  else {i2c->set_byte(0x41, floatCommand);}
+  if (brake) {m_i2c->set_byte(0x41, brakeCommand);}
+  else {m_i2c->set_byte(0x41, floatCommand);}
 }
 
 // adds the motor1 to the bank from which the method is called
 void NxBank::add_motor1() {
-  motor1.i2c = &i2c;
+  motor1.m_i2c = &m_i2c;
 
   motor1.resetCommand = 0x72;
   motor1.brakeCommand = 0x41;
@@ -108,16 +108,16 @@ void NxBank::add_motor1() {
 NxShield::NxShield() {
   bankA_address = 0x03;
   bankB_address = 0x04;
-  filename = "/dev/i2c-2";
+  filename = "/dev/m_i2c-2";
 }
 
 // initializes bankA
 void NxShield::init_bankA() {
   bankA.address = bankA_address;
-  bankA.i2c.init(filename, bankA_address);
-  strncpy(bankA.vendorID, bankA.i2c.get_string(8,15).c_str(), 9);
-  strncpy(bankA.firmware, bankA.i2c.get_string(0,7).c_str(), 9);
-  strncpy(bankA.deviceID, bankA.i2c.get_string(16,23).c_str(), 9);
+  bankA.m_i2c.init(filename, bankA_address);
+  strncpy(bankA.vendorID, bankA.m_i2c.get_string(8,15).c_str(), 9);
+  strncpy(bankA.firmware, bankA.m_i2c.get_string(0,7).c_str(), 9);
+  strncpy(bankA.deviceID, bankA.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank A:\n");
   printf("  vendorID: %s\n", bankA.vendorID);
   printf("  firmware: %s\n", bankA.firmware);
@@ -127,10 +127,10 @@ void NxShield::init_bankA() {
 // initializes bankB
 void NxShield::init_bankB() {
   bankB.address = bankB_address;
-  bankB.i2c.init(filename, bankB_address);
-  strncpy(bankB.firmware, bankB.i2c.get_string(0,7).c_str(), 9);
-  strncpy(bankB.vendorID, bankB.i2c.get_string(8,15).c_str(), 9);
-  strncpy(bankB.deviceID, bankB.i2c.get_string(16,23).c_str(), 9);
+  bankB.m_i2c.init(filename, bankB_address);
+  strncpy(bankB.firmware, bankB.m_i2c.get_string(0,7).c_str(), 9);
+  strncpy(bankB.vendorID, bankB.m_i2c.get_string(8,15).c_str(), 9);
+  strncpy(bankB.deviceID, bankB.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank B:\n");
   printf("  vendorID: %s\n", bankB.vendorID);
   printf("  firmware: %s\n", bankB.firmware);
