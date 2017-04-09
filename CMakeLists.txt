@@ -40,7 +40,7 @@ include_directories(
 ### build applications ###
 add_executable(
   nxshield_test
-  ${bbb_robot_SOURCE_DIR}/application/motor_test.cpp
+  ${bbb_robot_SOURCE_DIR}/application/main.cpp
 )
 
 target_link_libraries(nxshield_test nxshield)
