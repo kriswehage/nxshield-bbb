@@ -63,10 +63,12 @@ int main(int argc, char **argv) {
   for(int i = 0; i < n; i++) {
 
     printf("run unlimited\n");
-    nxshield.m_bankB.motorRunUnlimited(SH_Motor_1, SH_Direction_Forward, 50);
-    nxshield.m_bankB.motorRunUnlimited(SH_Motor_2, SH_Direction_Forward, 50);
     nxshield.m_bankA.motorRunUnlimited(SH_Motor_1, SH_Direction_Forward, 50);
     nxshield.m_bankA.motorRunUnlimited(SH_Motor_2, SH_Direction_Forward, 50);
+    nxshield.m_bankB.motorRunUnlimited(SH_Motor_1, SH_Direction_Forward, 50);
+    nxshield.m_bankB.motorRunUnlimited(SH_Motor_2, SH_Direction_Forward, 50);
+    nxshield.m_bankA.motorStartBothInSync();
+    nxshield.m_bankB.motorStartBothInSync();
 
     for(int j = 0; j < polling_count; j++) {
       enc_a_1 = nxshield.m_bankA.motorGetEncoderPosition(SH_Motor_1);

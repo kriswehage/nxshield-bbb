@@ -42,7 +42,7 @@ unsigned int nxmotor::read_encoderTarget() {
 
 // reads the current encoder position
 unsigned int nxmotor::read_encoderPosition() {
-  unsigned char b1,b2,b3,b4;
+  unsigned char b1, b2, b3, b4;
   b1 = i2c->get_byte(reg_encPosition[0]);
   b2 = i2c->get_byte(reg_encPosition[1]);
   b3 = i2c->get_byte(reg_encPosition[2]);
