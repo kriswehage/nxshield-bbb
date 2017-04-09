@@ -82,7 +82,7 @@ unsigned char* BaseI2CDevice::get_bytes(int add1, int bytes) {
 @brief Get ulong value at address
 */
 uint32_t BaseI2CDevice::get_ulong(int add1) {
-  set_pointer(add1);
+  set_pointer(add1); 
 
   unsigned char* buf = get_bytes(add1, 4);
   return ((uint32_t*)buf)[0];
