@@ -145,12 +145,12 @@ class NxShield {
   private:
 
     /* register addresses */
-    unsigned char m_position_Kp = 0x7a;
-    unsigned char m_position_Ki = 0x7c;
-    unsigned char m_position_Kd = 0x7e;
-    unsigned char m_speed_Kp = 0x80;
-    unsigned char m_speed_Ki = 0x82;
-    unsigned char m_speed_Kd = 0x84;
+    static unsigned char m_position_Kp = 0x7a;
+    static unsigned char m_position_Ki = 0x7c;
+    static unsigned char m_position_Kd = 0x7e;
+    static unsigned char m_speed_Kp = 0x80;
+    static unsigned char m_speed_Ki = 0x82;
+    static unsigned char m_speed_Kd = 0x84;
 
 };
 
