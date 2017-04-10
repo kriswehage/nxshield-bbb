@@ -141,6 +141,9 @@ void NxShield::init_bankA() {
   printf("  vendorID: %s\n", m_bankA.m_vendorID);
   printf("  firmware: %s\n", m_bankA.m_firmware);
   printf("  deviceID: %s\n", m_bankA.m_deviceID);
+
+  m_bankA.add_motor1();
+  m_bankA.add_motor2();
 }
 
 // initializes bankB
@@ -154,4 +157,8 @@ void NxShield::init_bankB() {
   printf("  vendorID: %s\n", m_bankB.m_vendorID);
   printf("  firmware: %s\n", m_bankB.m_firmware);
   printf("  deviceID: %s\n", m_bankB.m_deviceID);
+
+  m_bankB.add_motor1();
+  m_bankB.add_motor2();
+
 }

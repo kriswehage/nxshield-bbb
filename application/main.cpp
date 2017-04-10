@@ -10,7 +10,7 @@
 int main() {
    NxShield nx;
    nx.init_bankA();
-   nx.bankA.add_motor1();
+
 
    NxMotor* m1 = &nx.bankA.motor1;
 
