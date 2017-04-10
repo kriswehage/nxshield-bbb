@@ -41,7 +41,7 @@ int main() {
     } else if (buff == "getET" || buff == "gt") {
       std::cout << m1->read_encoderTarget() << std::endl;
     } else if (buff == "getEP" || buff == "gp") {
-      m1->read_encoderPosition();
+      std::cout << m1->read_encoderPosition() std::endl;
     } else if (buff == "dump") {
       m1->m_i2c->dump(true);
     } else if (buff == "dump_int") {
