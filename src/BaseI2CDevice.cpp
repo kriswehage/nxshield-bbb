@@ -145,11 +145,11 @@ void BaseI2CDevice::set_long(int address, int value) {
   m_buffer[0] = address;
   int32_t temp = (int32_t)value;
   char* temp2 = (char*)&temp;
-  for(int i = 1; i < bytes + 1; i++) {
+  for(int i = 1; i < 5; i++) {
     m_buffer[i] = temp[i];
   }
-  if (write(m_file, m_buffer, 1 + bytes) != 1 + bytes) {
-    fprintf(stderr, "Error writing %i bytes\n", bytes);
+  if (write(m_file, m_buffer, 5) != 5) {
+    fprintf(stderr, "Error writing %i bytes\n", 4);
   }
 }
 
