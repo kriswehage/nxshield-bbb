@@ -68,6 +68,20 @@ void NxMotor::run(const char* comm) {
   m_i2c->set_byte(m_reg_command, command_num);
 }
 
+#define MMX_CONTROL_SPEED      0x01
+#define MMX_CONTROL_RAMP       0x02
+#define MMX_CONTROL_RELATIVE   0x04
+#define MMX_CONTROL_TACHO      0x08
+#define MMX_CONTROL_BRK        0x10
+#define MMX_CONTROL_ON         0x20
+#define MMX_CONTROL_TIME       0x40
+#define MMX_CONTROL_GO         0x80
+
+void NxMotor::runSpeedControl() {
+  unsigned char control = MMX_CONTROL_SPEED & MMX_CONTROL_GO;
+  m_i2c->set_byte(m_reg_command, command);
+}
+
 // stops the motor
 void NxMotor::stop(bool brake) {
   if (brake) {m_i2c->set_byte(0x41, m_brakeCommand);}

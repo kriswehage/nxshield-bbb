@@ -64,6 +64,7 @@ int main() {
     } else if (buff == "exit") {
       alive = false;
     } else if (buff == "q") {
+      m1->stop();
       alive = false;
     } else {
       std::cout << "not a command ..." << std::endl;

@@ -7,6 +7,16 @@
 
 #include <NxShield.h>
 
+#define MMX_CONTROL_SPEED      0x01
+#define MMX_CONTROL_RAMP       0x02
+#define MMX_CONTROL_RELATIVE   0x04
+#define MMX_CONTROL_TACHO      0x08
+#define MMX_CONTROL_BRK        0x10
+#define MMX_CONTROL_ON         0x20
+#define MMX_CONTROL_TIME       0x40
+#define MMX_CONTROL_GO         0x80
+
+
 int main() {
    NxShield nx;
 

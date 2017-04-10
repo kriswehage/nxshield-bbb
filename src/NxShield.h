@@ -111,6 +111,7 @@ class NxMotor {
     void set_time(unsigned int);
     void set_speed(unsigned int);
     void run(const char*);
+    void runSpeedControl();
     void stop(bool brake=false);
 };
 
