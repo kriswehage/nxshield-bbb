@@ -18,12 +18,15 @@ NxMotor::NxMotor() {
 
 // writes an unsigned long int to the encoder target
 void NxMotor::write_encoderTarget(int target) {
-  char *somechars = (char*)&target;
 
-  m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
-  m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
-  m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
-  m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
+  return m_i2c->write_long(m_reg_encTarget[0], target);
+  // uint32_t temp = (uint32_t)target;
+  // char *somechars = (char*)&temp;
+  //
+  // m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
+  // m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
+  // m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
+  // m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
 }
 
 // reads the last encoder target
