@@ -170,6 +170,6 @@ void NxShield::init_bankB() {
 }
 
 int NxShield::get_voltage() {
-  char voltage = m_bankA.m_i2c.read_byte(0x41);
+  char voltage = m_bankA.m_i2c.get_byte(0x41);
   return (int) voltage * 37;
 }
