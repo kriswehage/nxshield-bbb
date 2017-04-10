@@ -12,7 +12,7 @@ int main() {
    nx.init_bankA();
 
 
-   NxMotor* m1 = &nx.bankA.motor1;
+   NxMotor* m1 = &nx.m_bankA.m_motor1;
 
    std::string buff;
    unsigned long int_buff = 0;
