@@ -12,7 +12,7 @@ int main()
    nxshield nx;
    nx.init_bankA();
    nx.bankA.add_motor1();
-   
+
    nxmotor * m1 = &nx.bankA.motor1;
 
    std::string buff;
@@ -25,7 +25,7 @@ int main()
 
       if (buff == "help") {
         std::cout << "help, exit, dump, dump_int, run, stop, setET, getET, getEP, reset, setTime, setSpeed\n";
-      } 
+      }
       else if (buff == "run") {
         std::cout << "-->";
         getline(std::cin, buff);
@@ -47,11 +47,11 @@ int main()
         std::cout << "set T pos to " << buff << std::endl;
       }
       else if (buff == "getET" || buff == "gt") {
-        m1->read_encoderTarget();
+        std::cout << m1->read_encoderTarget() << std::endl;
 
       }
       else if (buff == "getEP" || buff == "gp") {
-        m1->read_encoderPosition();
+        std::cout << m1->read_encoderPosition() << std::endl;
       }
       else if (buff == "dump") {
         m1->i2c->dump(true);
@@ -84,7 +84,7 @@ int main()
       else {
           std::cout << "not a command moron...\n";
       }
-     
+
    }
 
 
@@ -98,8 +98,8 @@ int main()
 
 //   uint8_t buffer[4] = {b4, b3, b2, b1};
 //   uint32_t x = buffer[3] * 256 * 256 * 256
-//           + buffer[2] * 256 * 256 
-//           + buffer[1] * 256 
+//           + buffer[2] * 256 * 256
+//           + buffer[1] * 256
 //           + buffer[0];
 //
 //   nx.bankB.i2c.dump(true);

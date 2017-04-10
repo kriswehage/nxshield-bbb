@@ -61,9 +61,7 @@ int main() {
       getline(std::cin, buff);
       std::stringstream(buff) >> int_buff;
       m1->set_speed(int_buff);
-    } else if (buff == "exit") {
-      alive = false;
-    } else if (buff == "q") {
+    } else if (buff == "exit" || buff == "q") {
       alive = false;
     } else {
       std::cout << "not a command ..." << std::endl;
