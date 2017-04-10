@@ -21,7 +21,7 @@ void NxMotor::write_encoderTarget(int target) {
 
   // return m_i2c->set_long(m_reg_encTarget[0], target);
   uint32_t temp = (uint32_t)target;
-  char *somechars = (char*)&temp;
+  char* somechars = (char*)&temp;
 
   m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
   m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
@@ -31,13 +31,13 @@ void NxMotor::write_encoderTarget(int target) {
 
 // reads the last encoder target
 int NxMotor::read_encoderTarget() {
-  // return m_i2c->get_long(m_reg_encTarget[0]);
-  char b[4];
-  b[0] = m_i2c->get_byte(m_reg_encTarget[0]);
-  b[1] = m_i2c->get_byte(m_reg_encTarget[1]);
-  b[2] = m_i2c->get_byte(m_reg_encTarget[2]);
-  b[3] = m_i2c->get_byte(m_reg_encTarget[3]);
-  unsigned int target = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
+  return m_i2c->get_long(m_reg_encTarget[0]);
+  // char b[4];
+  // b[0] = m_i2c->get_byte(m_reg_encTarget[0]);
+  // b[1] = m_i2c->get_byte(m_reg_encTarget[1]);
+  // b[2] = m_i2c->get_byte(m_reg_encTarget[2]);
+  // b[3] = m_i2c->get_byte(m_reg_encTarget[3]);
+  // unsigned int target = (b4 << 24) | (b3 << 16) | (b2 << 8) | (b1);
   // printf("Encoder Target: %i\n", target);
   // return(target);
 }
