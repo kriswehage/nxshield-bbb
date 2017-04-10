@@ -49,11 +49,11 @@ void NxMotor::reset_encoder() {
 }
 
 void NxMotor::set_time(unsigned int value) {
-  m_i2c->set_byte(reg_time, value);
+  m_i2c->set_byte(m_reg_time, value);
 }
 
 void NxMotor::set_speed(unsigned int value) {
-  m_i2c->set_byte(reg_speed, value);
+  m_i2c->set_byte(m_reg_speed, value);
 }
 
 // takes a bit string such as '10000110' where each bit refers to a command
@@ -61,13 +61,13 @@ void NxMotor::set_speed(unsigned int value) {
 void NxMotor::run(const char* comm) {
   int command_num = strtoul(comm, NULL, 2);
   std::cout << "Set run command " << comm << " or " << command_num << std::endl;
-  m_i2c->set_byte(reg_command, command_num);
+  m_i2c->set_byte(m_reg_command, command_num);
 }
 
 // stops the motor
 void NxMotor::stop(bool brake) {
-  if (brake) {m_i2c->set_byte(0x41, brakeCommand);}
-  else {m_i2c->set_byte(0x41, floatCommand);}
+  if (brake) {m_i2c->set_byte(0x41, m_brakeCommand);}
+  else {m_i2c->set_byte(0x41, m_floatCommand);}
 }
 
 // adds the motor1 to the bank from which the method is called
