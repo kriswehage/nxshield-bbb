@@ -15,7 +15,7 @@ class BaseI2CDevice {
 			m_initialized = false;
 		};
     int init(const char*, int);
-    unsigned char* get_byte(int);
+    unsigned char get_byte(int);
 		unsigned char* get_bytes(int, int);
     unsigned char* get_char(int);
 		uint16_t get_uint(int);
