@@ -109,7 +109,7 @@ class NxMotor {
     int read_encoderPosition();
     void reset_encoder();
     void set_time(unsigned int);
-    void set_speed(int);
+    void set_speed(unsigned int);
     void run(const char*);
     void stop(bool brake=false);
 };
