@@ -52,14 +52,14 @@ void BaseI2CDevice::set_pointer(int address) {
 /*!
 @brief Get byte value at address
 */
-unsigned char* BaseI2CDevice::get_byte(int add1) {
+unsigned char BaseI2CDevice::get_byte(int add1) {
   set_pointer(add1);
 
   if (read(m_file, m_buffer, 1) != 1){
-    fprintf(stderr, "Error reading %i bytes\n",1);
+    fprintf(stderr, "Error reading %i bytes\n", 1);
     exit(1);
   } else {
-    return m_buffer;
+    return m_buffer[0];
   }
 }
 
