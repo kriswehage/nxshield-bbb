@@ -19,7 +19,7 @@ NxMotor::NxMotor() {
 // writes an unsigned long int to the encoder target
 void NxMotor::write_encoderTarget(int target) {
 
-  return m_i2c->write_long(m_reg_encTarget[0], target);
+  return m_i2c->set_long(m_reg_encTarget[0], target);
   // uint32_t temp = (uint32_t)target;
   // char *somechars = (char*)&temp;
   //
