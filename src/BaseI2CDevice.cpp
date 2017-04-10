@@ -135,6 +135,24 @@ void BaseI2CDevice::set_byte(int address, int value) {
   }
 }
 
+/*!
+@brief Set byte value at address
+
+FiX: For consistency, this function should take unsigned char addresses.
+However, we need to make sure that this indeed makes sense.
+*/
+void BaseI2CDevice::set_long(int address, int value) {
+  m_buffer[0] = address;
+  int32_t temp = (int32_t)value;
+  char* temp2 = (char*)&temp;
+  for(int i = 1; i < bytes + 1; i++) {
+    m_buffer[i] = temp[i];
+  }
+  if (write(m_file, m_buffer, 1 + bytes) != 1 + bytes) {
+    fprintf(stderr, "Error writing %i bytes\n", bytes);
+  }
+}
+
 
 /*!
 @brief Dump a neat table of all the hex values...similar to i2cdump
