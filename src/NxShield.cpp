@@ -128,6 +128,8 @@ NxShield::NxShield() {
   m_bankA_address = 0x03;
   m_bankB_address = 0x04;
   m_filename = "/dev/i2c-2";
+  init_bankA();
+  init_bankB();
 }
 
 // initializes bankA
