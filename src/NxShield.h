@@ -111,7 +111,22 @@ class NxMotor {
     void set_time(unsigned int);
     void set_speed(unsigned int);
     void run(const char*);
-    void runSpeedControl();
+    void runSpeedControl(
+      bool ramp = false,
+      bool brakeOnCompletion = false,
+      bool timedControl = false);
+    void runPositionControl(
+      bool ramp = false,
+      bool relative = false,
+      bool brakeOnCompletion = false,
+      bool holdOnCompletion = false,
+      bool timedControl = false);
+    void runSpeedAndPositionControl(
+      bool ramp = false,
+      bool relative = false,
+      bool brakeOnCompletion = false,
+      bool holdOnCompletion = false,
+      bool timedControl = false);
     void stop(bool brake=false);
 };
 
