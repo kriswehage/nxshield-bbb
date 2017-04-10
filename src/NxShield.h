@@ -133,7 +133,7 @@ class NxShield {
   public:
     unsigned char m_bankA_address;
     unsigned char m_bankB_address;
-    const char* filename;
+    const char* m_filename;
 
     NxBank m_bankA;
     NxBank m_bankB;
