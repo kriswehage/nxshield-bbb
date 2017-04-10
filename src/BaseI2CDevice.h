@@ -23,7 +23,10 @@ class BaseI2CDevice {
 		uint32_t get_ulong(int);
 		int32_t get_long(int);
     void set_byte(int, int);
-		void set_bytes(int, int, int);
+		void set_long(int, int);
+		void set_ulong(int, unsigned int);
+		void set_int(int, int);
+		void set_uint(int, unsigned int);
     void dump(bool as_hex=false);
     std::string get_string(int, int);
 
