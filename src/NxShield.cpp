@@ -28,7 +28,7 @@ void NxMotor::write_encoderTarget(unsigned int target) {
 
 // reads the last encoder target
 unsigned int NxMotor::read_encoderTarget() {
-  return m_i2c->get_long(reg_encTarget[0]);
+  return m_i2c->get_long(m_reg_encTarget[0]);
   // b1 = m_i2c->get_byte(m_reg_encTarget[0]);
   // b2 = m_i2c->get_byte(m_reg_encTarget[1]);
   // b3 = m_i2c->get_byte(m_reg_encTarget[2]);
@@ -40,7 +40,7 @@ unsigned int NxMotor::read_encoderTarget() {
 
 // reads the current encoder position
 int NxMotor::read_encoderPosition() {
-  return m_i2c->get_long(reg_encPosition[0]);
+  return m_i2c->get_long(m_reg_encPosition[0]);
 }
 
 // resets the encoder
