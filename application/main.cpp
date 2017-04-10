@@ -78,7 +78,7 @@ int main() {
     }
 
     if(buff == "setSpeed") {
-      m1->run("10000001");
+      m1->runSpeedControl();
     } else {
       m1->run("00000001");
     }
