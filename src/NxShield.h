@@ -105,7 +105,7 @@ class NxMotor {
 
     NxMotor();
     int read_encoderTarget();
-    void write_encoderTarget(int);
+    void write_encoderTarget(unsigned int);
     int read_encoderPosition();
     void reset_encoder();
     void set_time(unsigned int);
