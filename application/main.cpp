@@ -41,7 +41,7 @@ int main() {
       m1->write_encoderTarget(int_buff);
       std::cout << "set T pos to " << buff << std::endl;
     } else if (buff == "getET" || buff == "gt") {
-      m1->read_encoderTarget();
+      std::cout << m1->read_encoderTarget() << std::endl;
     } else if (buff == "getEP" || buff == "gp") {
       m1->read_encoderPosition();
     } else if (buff == "dump") {
