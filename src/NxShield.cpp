@@ -45,7 +45,7 @@ int NxMotor::read_encoderPosition() {
 
 // resets the encoder
 void NxMotor::reset_encoder() {
-  m_i2c->set_byte(0x41, resetCommand);
+  m_i2c->set_byte(0x41, m_resetCommand);
 }
 
 void NxMotor::set_time(unsigned int value) {
