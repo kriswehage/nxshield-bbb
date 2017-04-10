@@ -74,69 +74,69 @@ void NxMotor::stop(bool brake) {
 void NxBank::add_motor1() {
   m_motor1.m_i2c = &m_i2c;
 
-  m_motor1.resetCommand = 0x72;
-  m_motor1.brakeCommand = 0x41;
-  m_motor1.floatCommand = 0x61;
+  m_motor1.m_resetCommand = 0x72;
+  m_motor1.m_brakeCommand = 0x41;
+  m_motor1.m_floatCommand = 0x61;
 
-  m_motor1.reg_command = 0x49;
-  m_motor1.reg_time = 0x47;
-  m_motor1.reg_speed = 0x46;
+  m_motor1.m_reg_command = 0x49;
+  m_motor1.m_reg_time = 0x47;
+  m_motor1.m_reg_speed = 0x46;
 
-  m_motor1.reg_status = 0x72;
-  m_motor1.reg_tasks = 0x76;
+  m_motor1.m_reg_status = 0x72;
+  m_motor1.m_reg_tasks = 0x76;
 
   m_motor1.m_reg_encTarget[0] = 0x42;
   m_motor1.m_reg_encTarget[1] = 0x43;
   m_motor1.m_reg_encTarget[2] = 0x44;
   m_motor1.m_reg_encTarget[3] = 0x45;
 
-  m_motor1.reg_encPosition[0] = 0x62;
-  m_motor1.reg_encPosition[1] = 0x63;
-  m_motor1.reg_encPosition[2] = 0x64;
-  m_motor1.reg_encPosition[3] = 0x65;
+  m_motor1.m_reg_encPosition[0] = 0x62;
+  m_motor1.m_reg_encPosition[1] = 0x63;
+  m_motor1.m_reg_encPosition[2] = 0x64;
+  m_motor1.m_reg_encPosition[3] = 0x65;
 
 }
 
 void NxBank::add_motor2() {
   m_motor2.m_i2c = &m_i2c;
 
-  m_motor2.resetCommand = 0x72;
-  m_motor2.brakeCommand = 0x41;
-  m_motor2.floatCommand = 0x61;
+  m_motor2.m_resetCommand = 0x72;
+  m_motor2.m_brakeCommand = 0x41;
+  m_motor2.m_floatCommand = 0x61;
 
-  m_motor2.reg_command = 0x49;
-  m_motor2.reg_time = 0x47;
-  m_motor2.reg_speed = 0x46;
+  m_motor2.m_reg_command = 0x49;
+  m_motor2.m_reg_time = 0x47;
+  m_motor2.m_reg_speed = 0x46;
 
-  m_motor2.reg_status = 0x73;
-  m_motor2.reg_tasks = 0x77;
+  m_motor2.m_reg_status = 0x73;
+  m_motor2.m_reg_tasks = 0x77;
 
   m_motor2.m_reg_encTarget[0] = 0x4A;
   m_motor2.m_reg_encTarget[1] = 0x4B;
   m_motor2.m_reg_encTarget[2] = 0x4C;
   m_motor2.m_reg_encTarget[3] = 0x4D;
 
-  m_motor2.reg_encPosition[0] = 0x66;
-  m_motor2.reg_encPosition[1] = 0x67;
-  m_motor2.reg_encPosition[2] = 0x68;
-  m_motor2.reg_encPosition[3] = 0x69;
+  m_motor2.m_reg_encPosition[0] = 0x66;
+  m_motor2.m_reg_encPosition[1] = 0x67;
+  m_motor2.m_reg_encPosition[2] = 0x68;
+  m_motor2.m_reg_encPosition[3] = 0x69;
 
 }
 
 
 NxShield::NxShield() {
-  bankA_address = 0x03;
-  bankB_address = 0x04;
-  filename = "/dev/i2c-2";
+  m_bankA_address = 0x03;
+  m_bankB_address = 0x04;
+  m_filename = "/dev/i2c-2";
 }
 
 // initializes bankA
 void NxShield::init_bankA() {
-  bankA.address = bankA_address;
-  bankA.m_i2c.init(filename, bankA_address);
-  strncpy(bankA.vendorID, bankA.m_i2c.get_string(8,15).c_str(), 9);
-  strncpy(bankA.firmware, bankA.m_i2c.get_string(0,7).c_str(), 9);
-  strncpy(bankA.deviceID, bankA.m_i2c.get_string(16,23).c_str(), 9);
+  m_bankA.address = m_bankA_address;
+  m_bankA.m_i2c.init(m_filename, m_bankA_address);
+  strncpy(m_bankA.vendorID, m_bankA.m_i2c.get_string(8,15).c_str(), 9);
+  strncpy(m_bankA.firmware, m_bankA.m_i2c.get_string(0,7).c_str(), 9);
+  strncpy(m_bankA.deviceID, m_bankA.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank A:\n");
   printf("  vendorID: %s\n", bankA.vendorID);
   printf("  firmware: %s\n", bankA.firmware);
@@ -145,13 +145,13 @@ void NxShield::init_bankA() {
 
 // initializes bankB
 void NxShield::init_bankB() {
-  bankB.address = bankB_address;
-  bankB.m_i2c.init(filename, bankB_address);
-  strncpy(bankB.firmware, bankB.m_i2c.get_string(0,7).c_str(), 9);
-  strncpy(bankB.vendorID, bankB.m_i2c.get_string(8,15).c_str(), 9);
-  strncpy(bankB.deviceID, bankB.m_i2c.get_string(16,23).c_str(), 9);
+  m_bankB.address = m_bankB_address;
+  m_bankB.m_i2c.init(m_filename, m_bankB_address);
+  strncpy(m_bankB.firmware, m_bankB.m_i2c.get_string(0,7).c_str(), 9);
+  strncpy(m_bankB.vendorID, m_bankB.m_i2c.get_string(8,15).c_str(), 9);
+  strncpy(m_bankB.deviceID, m_bankB.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank B:\n");
-  printf("  vendorID: %s\n", bankB.vendorID);
-  printf("  firmware: %s\n", bankB.firmware);
-  printf("  deviceID: %s\n", bankB.deviceID);
+  printf("  vendorID: %s\n", m_bankB.vendorID);
+  printf("  firmware: %s\n", m_bankB.firmware);
+  printf("  deviceID: %s\n", m_bankB.deviceID);
 }
