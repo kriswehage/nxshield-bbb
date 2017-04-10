@@ -9,8 +9,6 @@
 
 int main() {
    NxShield nx;
-   nx.init_bankA();
-
 
    NxMotor* m1 = &nx.m_bankA.m_motor1;
 
