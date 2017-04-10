@@ -22,7 +22,7 @@ class BaseI2CDevice {
 		int16_t get_int(int);
 		uint32_t get_ulong(int);
 		int32_t get_long(int);
-    void set_byte(int, int);
+    void set_byte(int, char);
 		void set_long(int, int);
 		void set_ulong(int, unsigned int);
 		void set_int(int, int);

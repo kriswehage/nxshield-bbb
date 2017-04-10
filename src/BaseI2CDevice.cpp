@@ -85,7 +85,7 @@ uint32_t BaseI2CDevice::get_ulong(int add1) {
   set_pointer(add1);
 
   unsigned char* buf = get_bytes(add1, 4);
-  return ((uint32_t*)buf)[0];
+  return *((uint32_t*)buf);
 }
 
 
@@ -96,7 +96,7 @@ int32_t BaseI2CDevice::get_long(int add1) {
   set_pointer(add1);
 
   unsigned char* buf = get_bytes(add1, 4);
-  return ((int32_t*)buf)[0];
+  return *((int32_t*)buf);
 }
 
 /*!
@@ -106,7 +106,7 @@ uint16_t BaseI2CDevice::get_uint(int add1) {
   set_pointer(add1);
 
   unsigned char* buf = get_bytes(add1, 2);
-  return ((uint16_t*)buf)[0];
+  return *((uint16_t*)buf);
 }
 
 
@@ -117,7 +117,7 @@ int16_t BaseI2CDevice::get_int(int add1) {
   set_pointer(add1);
 
   unsigned char* buf = get_bytes(add1, 2);
-  return ((int16_t*)buf)[0];
+  return *((int16_t*)buf);
 }
 
 
@@ -127,7 +127,7 @@ int16_t BaseI2CDevice::get_int(int add1) {
 FiX: For consistency, this function should take unsigned char addresses.
 However, we need to make sure that this indeed makes sense.
 */
-void BaseI2CDevice::set_byte(int address, int value) {
+void BaseI2CDevice::set_byte(int address, char value) {
   m_buffer[0] = address;
   m_buffer[1] = value;
   if (write(m_file, m_buffer, 2) != 2) {
