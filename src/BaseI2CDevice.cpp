@@ -202,7 +202,7 @@ std::string BaseI2CDevice::get_string(int start, int stop) {
   int n;
   std::string final_string;
   for (n = start; n < stop + 1; n++) {
-    final_string.append(1, get_byte(n)[0]);
+    final_string.append(1, get_byte(n));
   }
   return(final_string);
 }
