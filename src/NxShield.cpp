@@ -132,7 +132,7 @@ NxShield::NxShield() {
 
 // initializes bankA
 void NxShield::init_bankA() {
-  m_bankA.address = m_bankA_address;
+  m_bankA.m_address = m_bankA_address;
   m_bankA.m_i2c.init(m_filename, m_bankA_address);
   strncpy(m_bankA.m_vendorID, m_bankA.m_i2c.get_string(8,15).c_str(), 9);
   strncpy(m_bankA.m_firmware, m_bankA.m_i2c.get_string(0,7).c_str(), 9);
@@ -145,7 +145,7 @@ void NxShield::init_bankA() {
 
 // initializes bankB
 void NxShield::init_bankB() {
-  m_bankB.address = m_bankB_address;
+  m_bankB.m_address = m_bankB_address;
   m_bankB.m_i2c.init(m_filename, m_bankB_address);
   strncpy(m_bankB.m_firmware, m_bankB.m_i2c.get_string(0,7).c_str(), 9);
   strncpy(m_bankB.m_vendorID, m_bankB.m_i2c.get_string(8,15).c_str(), 9);
