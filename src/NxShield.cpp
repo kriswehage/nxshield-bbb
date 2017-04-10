@@ -134,9 +134,9 @@ NxShield::NxShield() {
 void NxShield::init_bankA() {
   m_bankA.address = m_bankA_address;
   m_bankA.m_i2c.init(m_filename, m_bankA_address);
-  strncpy(m_bankA.vendorID, m_bankA.m_i2c.get_string(8,15).c_str(), 9);
-  strncpy(m_bankA.firmware, m_bankA.m_i2c.get_string(0,7).c_str(), 9);
-  strncpy(m_bankA.deviceID, m_bankA.m_i2c.get_string(16,23).c_str(), 9);
+  strncpy(m_bankA.m_vendorID, m_bankA.m_i2c.get_string(8,15).c_str(), 9);
+  strncpy(m_bankA.m_firmware, m_bankA.m_i2c.get_string(0,7).c_str(), 9);
+  strncpy(m_bankA.m_deviceID, m_bankA.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank A:\n");
   printf("  vendorID: %s\n", m_bankA.m_vendorID);
   printf("  firmware: %s\n", m_bankA.m_firmware);
@@ -147,9 +147,9 @@ void NxShield::init_bankA() {
 void NxShield::init_bankB() {
   m_bankB.address = m_bankB_address;
   m_bankB.m_i2c.init(m_filename, m_bankB_address);
-  strncpy(m_bankB.firmware, m_bankB.m_i2c.get_string(0,7).c_str(), 9);
-  strncpy(m_bankB.vendorID, m_bankB.m_i2c.get_string(8,15).c_str(), 9);
-  strncpy(m_bankB.deviceID, m_bankB.m_i2c.get_string(16,23).c_str(), 9);
+  strncpy(m_bankB.m_firmware, m_bankB.m_i2c.get_string(0,7).c_str(), 9);
+  strncpy(m_bankB.m_vendorID, m_bankB.m_i2c.get_string(8,15).c_str(), 9);
+  strncpy(m_bankB.m_deviceID, m_bankB.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank B:\n");
   printf("  vendorID: %s\n", m_bankB.m_vendorID);
   printf("  firmware: %s\n", m_bankB.m_firmware);
