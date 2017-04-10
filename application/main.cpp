@@ -59,10 +59,18 @@ int main() {
       getline(std::cin, buff);
       std::stringstream(buff) >> int_buff;
       m1->set_speed(int_buff);
-    } else if (buff == "exit" || buff == "q") {
+    } else if (buff == "getVoltage") {
+      std::cout << nx.get_voltage() << std::endl;
+    }else if (buff == "exit" || buff == "q") {
       alive = false;
     } else {
       std::cout << "not a command ..." << std::endl;
+    }
+
+    if(buff == "setSpeed") {
+      m1->run("10000001");
+    } else {
+      m1->run("00000001");
     }
 
    }

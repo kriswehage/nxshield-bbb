@@ -168,3 +168,8 @@ void NxShield::init_bankB() {
   m_bankB.add_motor2();
 
 }
+
+int NxShield::get_voltage() {
+  char voltage = m_bankA.m_i2c.read_byte(0x41);
+  return (int) voltage * 37;
+}

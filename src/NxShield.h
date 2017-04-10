@@ -141,6 +141,7 @@ class NxShield {
     NxShield();
     void init_bankA();
     void init_bankB();
+    int get_voltage();
 
   private:
 
