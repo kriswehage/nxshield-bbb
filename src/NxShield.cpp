@@ -138,9 +138,9 @@ void NxShield::init_bankA() {
   strncpy(m_bankA.firmware, m_bankA.m_i2c.get_string(0,7).c_str(), 9);
   strncpy(m_bankA.deviceID, m_bankA.m_i2c.get_string(16,23).c_str(), 9);
   printf("initialized bank A:\n");
-  printf("  vendorID: %s\n", bankA.vendorID);
-  printf("  firmware: %s\n", bankA.firmware);
-  printf("  deviceID: %s\n", bankA.deviceID);
+  printf("  vendorID: %s\n", m_bankA.vendorID);
+  printf("  firmware: %s\n", m_bankA.firmware);
+  printf("  deviceID: %s\n", m_bankA.deviceID);
 }
 
 // initializes bankB
