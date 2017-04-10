@@ -27,7 +27,7 @@ void NxMotor::write_encoderTarget(unsigned int target) {
 }
 
 // reads the last encoder target
-unsigned int NxMotor::read_encoderTarget() {
+int NxMotor::read_encoderTarget() {
   return m_i2c->get_long(m_reg_encTarget[0]);
   // b1 = m_i2c->get_byte(m_reg_encTarget[0]);
   // b2 = m_i2c->get_byte(m_reg_encTarget[1]);
