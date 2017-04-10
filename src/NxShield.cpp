@@ -79,6 +79,7 @@ void NxMotor::run(const char* comm) {
 
 void NxMotor::runSpeedControl() {
   unsigned char control = MMX_CONTROL_SPEED & MMX_CONTROL_GO;
+  printf("running command: %d\n", (int)control);
   m_i2c->set_byte(m_reg_command, control);
 }
 
