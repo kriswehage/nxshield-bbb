@@ -139,8 +139,8 @@ class NxBank {
     NxMotor m_motor1;
     NxMotor m_motor2;
 
-    void add_motor1();
-    void add_motor2();
+    void addMotor1();
+    void addMotor2();
 
     void setKpPosition(int Kp);
     void setKiPosition(int Ki);
@@ -160,9 +160,9 @@ class NxShield {
     NxBank m_bankB;
 
     NxShield();
-    void init_bankA();
-    void init_bankB();
-    int get_voltage();
+    void initBankA();
+    void initBankB();
+    int getVoltage();
 
   private:
 
