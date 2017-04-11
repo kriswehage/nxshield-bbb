@@ -130,27 +130,27 @@ void NxMotor::runSpeedAndPositionControl(
   bool holdOnCompletion,
   bool timedControl) {
 
-  m_control =
+  m_command =
     MMX_CONTROL_TACHO |
     MMX_CONTROL_GO |
     MMX_CONTROL_SPEED;
 
   if(ramp) {
-    m_control |= MMX_CONTROL_RAMP;
+    m_command |= MMX_CONTROL_RAMP;
   }
   if(relative) {
-    m_control |= MMX_CONTROL_RELATIVE;
+    m_command |= MMX_CONTROL_RELATIVE;
   }
   if(brakeOnCompletion) {
-    m_control |= MMX_CONTROL_BRK;
+    m_command |= MMX_CONTROL_BRK;
   }
   if(holdOnCompletion) {
-    m_control |= MMX_CONTROL_ON;
+    m_command |= MMX_CONTROL_ON;
   }
   if(timedControl) {
-    m_control |= MMX_CONTROL_TIME;
+    m_command |= MMX_CONTROL_TIME;
   }
-  m_i2c->set_byte(m_reg_command, m_control);
+  m_i2c->set_byte(m_reg_command, m_command);
 
 }
 
