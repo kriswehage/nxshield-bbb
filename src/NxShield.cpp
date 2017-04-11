@@ -157,8 +157,8 @@ void NxMotor::runSpeedAndPositionControl(
 
 // stops the motor
 void NxMotor::stop(bool brake) {
-  if (brake) {m_i2c->set_byte(m_reg_command, m_brakeCommand);}
-  else {m_i2c->set_byte(m_reg_command, m_floatCommand);}
+  if (brake) {m_i2c->set_byte(0x41, m_brakeCommand);}
+  else {m_i2c->set_byte(0x41, m_floatCommand);}
 }
 
 // adds the motor1 to the bank from which the method is called
