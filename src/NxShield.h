@@ -96,7 +96,7 @@ class NxMotor {
     unsigned char m_reg_tasks;
 
     NxMotor();
-    int readEncoderTarget();
+    int getEncoderTarget();
     void setEncoderTarget(int);
     int getEncoderPosition();
     void resetEncoder();
