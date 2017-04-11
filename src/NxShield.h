@@ -148,6 +148,16 @@ class NxBank {
     void setKpSpeed(int Kp);
     void setKiSpeed(int Ki);
     void setKdSpeed(int Kd);
+
+  private:
+
+    /* register addresses */
+    static const unsigned char m_position_Kp = 0x7a;
+    static const unsigned char m_position_Ki = 0x7c;
+    static const unsigned char m_position_Kd = 0x7e;
+    static const unsigned char m_speed_Kp = 0x80;
+    static const unsigned char m_speed_Ki = 0x82;
+    static const unsigned char m_speed_Kd = 0x84;
 };
 
 class NxShield {
@@ -163,16 +173,6 @@ class NxShield {
     void initBankA();
     void initBankB();
     int getVoltage();
-
-  private:
-
-    /* register addresses */
-    static const unsigned char m_position_Kp = 0x7a;
-    static const unsigned char m_position_Ki = 0x7c;
-    static const unsigned char m_position_Kd = 0x7e;
-    static const unsigned char m_speed_Kp = 0x80;
-    static const unsigned char m_speed_Ki = 0x82;
-    static const unsigned char m_speed_Kd = 0x84;
 
 };
 
