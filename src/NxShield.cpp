@@ -162,7 +162,7 @@ void NxMotor::stop(bool brake) {
 }
 
 // adds the motor1 to the bank from which the method is called
-void NxBank::add_motor1() {
+void NxBank::addMotor1() {
   m_motor1.m_i2c = &m_i2c;
 
   m_motor1.m_resetCommand = 0x72;
@@ -188,7 +188,7 @@ void NxBank::add_motor1() {
 
 }
 
-void NxBank::add_motor2() {
+void NxBank::addMotor2() {
   m_motor2.m_i2c = &m_i2c;
 
   m_motor2.m_resetCommand = 0x72;
@@ -224,7 +224,7 @@ NxShield::NxShield() {
 }
 
 // initializes bankA
-void NxShield::init_bankA() {
+void NxShield::initBankA() {
   m_bankA.m_address = m_bankA_address;
   m_bankA.m_i2c.init(m_filename, m_bankA_address);
   strncpy(m_bankA.m_vendorID, m_bankA.m_i2c.get_string(8,15).c_str(), 9);
@@ -235,12 +235,12 @@ void NxShield::init_bankA() {
   printf("  firmware: %s\n", m_bankA.m_firmware);
   printf("  deviceID: %s\n", m_bankA.m_deviceID);
 
-  m_bankA.add_motor1();
-  m_bankA.add_motor2();
+  m_bankA.addMotor1();
+  m_bankA.addMotor2();
 }
 
 // initializes bankB
-void NxShield::init_bankB() {
+void NxShield::initBankB() {
   m_bankB.m_address = m_bankB_address;
   m_bankB.m_i2c.init(m_filename, m_bankB_address);
   strncpy(m_bankB.m_firmware, m_bankB.m_i2c.get_string(0,7).c_str(), 9);
@@ -251,12 +251,12 @@ void NxShield::init_bankB() {
   printf("  firmware: %s\n", m_bankB.m_firmware);
   printf("  deviceID: %s\n", m_bankB.m_deviceID);
 
-  m_bankB.add_motor1();
-  m_bankB.add_motor2();
+  m_bankB.addMotor1();
+  m_bankB.addMotor2();
 
 }
 
-int NxShield::get_voltage() {
+int NxShield::getVoltage() {
   char voltage = m_bankA.m_i2c.get_byte(0x41);
   return (int) voltage * 37;
 }
