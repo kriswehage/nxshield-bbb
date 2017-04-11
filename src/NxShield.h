@@ -78,7 +78,12 @@
 
 class NxMotor {
   public:
+    NxMotor();
+
     BaseI2CDevice* m_i2c;
+
+    unsigned char m_command;
+
     unsigned char m_resetCommand;
     unsigned char m_brakeCommand;
     unsigned char m_floatCommand;
@@ -95,7 +100,7 @@ class NxMotor {
     unsigned char m_reg_status;
     unsigned char m_reg_tasks;
 
-    NxMotor();
+
     int getEncoderTarget();
     void setEncoderTarget(int);
     int getEncoderPosition();
@@ -130,7 +135,7 @@ class NxMotor {
 
 class NxBank {
   public:
-    NxBank() : m_lastCommand(0) {
+    NxBank() {
 
     }
 
@@ -154,8 +159,6 @@ class NxBank {
     void setKdSpeed(int Kd);
 
   private:
-
-    unsigned char m_lastCommand;
 
     /* register addresses */
     static const unsigned char m_position_Kp = 0x7a;

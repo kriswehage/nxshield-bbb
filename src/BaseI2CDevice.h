@@ -11,8 +11,8 @@ class BaseI2CDevice {
 
 	public:
 
-		BaseI2CDevice() {
-			m_initialized = false;
+		BaseI2CDevice():
+			m_initialized(false) {
 		};
     int init(const char*, int);
     unsigned char get_byte(int);

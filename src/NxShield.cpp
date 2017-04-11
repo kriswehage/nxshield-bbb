@@ -66,6 +66,7 @@ void NxMotor::run(const char* comm) {
   int command_num = strtoul(comm, NULL, 2);
   std::cout << "Set run command " << comm << " or " << command_num << std::endl;
   m_i2c->set_byte(m_reg_command, command_num);
+  m_lastCommand = command_num;
 }
 
 #define MMX_CONTROL_SPEED      0x01
@@ -82,18 +83,19 @@ void NxMotor::runSpeedControl(
   bool brakeOnCompletion,
   bool timedControl) {
 
-  unsigned char control = MMX_CONTROL_SPEED | MMX_CONTROL_GO;
+  unsigned char command = MMX_CONTROL_SPEED | MMX_CONTROL_GO;
 
   if(ramp) {
-    control |= MMX_CONTROL_RAMP;
+    command |= MMX_CONTROL_RAMP;
   }
   if(brakeOnCompletion) {
-    control |= MMX_CONTROL_BRK;
+    command |= MMX_CONTROL_BRK;
   }
   if(timedControl) {
-    control |= MMX_CONTROL_TIME;
+    command |= MMX_CONTROL_TIME;
   }
-  m_i2c->set_byte(m_reg_command, control);
+  m_i2c->set_byte(m_reg_command, command);
+  m_lastCommand = command;
 }
 
 void NxMotor::runPositionControl(
@@ -103,24 +105,25 @@ void NxMotor::runPositionControl(
   bool holdOnCompletion, // hold encoder position on completion
   bool timedControl) {
 
-  unsigned char control = MMX_CONTROL_TACHO | MMX_CONTROL_GO;
+  unsigned char command = MMX_CONTROL_TACHO | MMX_CONTROL_GO;
 
   if(ramp) {
-    control |= MMX_CONTROL_RAMP;
+    command |= MMX_CONTROL_RAMP;
   }
   if(relative) {
-    control |= MMX_CONTROL_RELATIVE;
+    command |= MMX_CONTROL_RELATIVE;
   }
   if(brakeOnCompletion) {
-    control |= MMX_CONTROL_BRK;
+    command |= MMX_CONTROL_BRK;
   }
   if(holdOnCompletion) {
-    control |= MMX_CONTROL_ON;
+    command |= MMX_CONTROL_ON;
   }
   if(timedControl) {
-    control |= MMX_CONTROL_TIME;
+    command |= MMX_CONTROL_TIME;
   }
-  m_i2c->set_byte(m_reg_command, control);
+  m_i2c->set_byte(m_reg_command, command);
+  m_lastCommand = command;
 }
 
 void NxMotor::runSpeedAndPositionControl(
