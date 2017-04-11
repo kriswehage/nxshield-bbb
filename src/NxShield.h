@@ -125,14 +125,7 @@ class NxMotor {
       bool brakeOnCompletion = false,
       bool holdOnCompletion = false,
       bool timedControl = false);
-    void setKpPosition(int Kp);
-    void setKiPosition(int Ki);
-    void setKdPosition(int Kd);
-    void setKpSpeed(int Kp);
-    void setKiSpeed(int Ki);
-    void setKdSpeed(int Kd);
-
-    void stop(bool brake=false);
+    void stop(bool brake = false);
 };
 
 class NxBank {
@@ -148,6 +141,13 @@ class NxBank {
 
     void add_motor1();
     void add_motor2();
+
+    void setKpPosition(int Kp);
+    void setKiPosition(int Ki);
+    void setKdPosition(int Kd);
+    void setKpSpeed(int Kp);
+    void setKiSpeed(int Ki);
+    void setKdSpeed(int Kd);
 };
 
 class NxShield {
