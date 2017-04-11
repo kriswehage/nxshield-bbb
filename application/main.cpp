@@ -63,7 +63,7 @@ int main() {
       std::cout << "-->";
       getline(std::cin, buff);
       std::stringstream(buff) >> int_buff;
-      m1->set_time(int_buff);
+      m1->setTime(int_buff);
     } else if (buff == "setSpeed") {
       std::cout << "-->";
       getline(std::cin, buff);
