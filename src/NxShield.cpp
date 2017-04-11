@@ -186,8 +186,6 @@ void NxBank::add_motor1() {
   m_motor1.m_reg_encPosition[2] = 0x64;
   m_motor1.m_reg_encPosition[3] = 0x65;
 
-  m_motor1.m_reg_KpPosition
-
 }
 
 void NxBank::add_motor2() {
