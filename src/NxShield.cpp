@@ -63,10 +63,9 @@ void NxMotor::setSpeed(unsigned int value) {
 // takes a bit string such as '10000110' where each bit refers to a command
 // attribute
 void NxMotor::run(const char* comm) {
-  int command_num = strtoul(comm, NULL, 2);
-  std::cout << "Set run command " << comm << " or " << command_num << std::endl;
-  m_i2c->set_byte(m_reg_command, command_num);
-  m_lastCommand = command_num;
+  m_command = strtoul(comm, NULL, 2);
+  std::cout << "Set run command " << comm << " or " << m_command << std::endl;
+  m_i2c->set_byte(m_reg_command, m_command);
 }
 
 #define MMX_CONTROL_SPEED      0x01
