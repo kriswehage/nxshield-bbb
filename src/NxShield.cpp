@@ -83,19 +83,18 @@ void NxMotor::runSpeedControl(
   bool brakeOnCompletion,
   bool timedControl) {
 
-  unsigned char command = MMX_CONTROL_SPEED | MMX_CONTROL_GO;
+  m_command = MMX_CONTROL_SPEED | MMX_CONTROL_GO;
 
   if(ramp) {
-    command |= MMX_CONTROL_RAMP;
+    m_command |= MMX_CONTROL_RAMP;
   }
   if(brakeOnCompletion) {
-    command |= MMX_CONTROL_BRK;
+    m_command |= MMX_CONTROL_BRK;
   }
   if(timedControl) {
-    command |= MMX_CONTROL_TIME;
+    m_command |= MMX_CONTROL_TIME;
   }
-  m_i2c->set_byte(m_reg_command, command);
-  m_lastCommand = command;
+  m_i2c->set_byte(m_reg_command, m_command);
 }
 
 void NxMotor::runPositionControl(
@@ -105,25 +104,24 @@ void NxMotor::runPositionControl(
   bool holdOnCompletion, // hold encoder position on completion
   bool timedControl) {
 
-  unsigned char command = MMX_CONTROL_TACHO | MMX_CONTROL_GO;
+  m_command = MMX_CONTROL_TACHO | MMX_CONTROL_GO;
 
   if(ramp) {
-    command |= MMX_CONTROL_RAMP;
+    m_command |= MMX_CONTROL_RAMP;
   }
   if(relative) {
-    command |= MMX_CONTROL_RELATIVE;
+    m_command |= MMX_CONTROL_RELATIVE;
   }
   if(brakeOnCompletion) {
-    command |= MMX_CONTROL_BRK;
+    m_command |= MMX_CONTROL_BRK;
   }
   if(holdOnCompletion) {
-    command |= MMX_CONTROL_ON;
+    m_command |= MMX_CONTROL_ON;
   }
   if(timedControl) {
-    command |= MMX_CONTROL_TIME;
+    m_command |= MMX_CONTROL_TIME;
   }
-  m_i2c->set_byte(m_reg_command, command);
-  m_lastCommand = command;
+  m_i2c->set_byte(m_reg_command, m_command);
 }
 
 void NxMotor::runSpeedAndPositionControl(
@@ -133,35 +131,35 @@ void NxMotor::runSpeedAndPositionControl(
   bool holdOnCompletion,
   bool timedControl) {
 
-  unsigned char control =
+  m_control =
     MMX_CONTROL_TACHO |
     MMX_CONTROL_GO |
     MMX_CONTROL_SPEED;
 
   if(ramp) {
-    control |= MMX_CONTROL_RAMP;
+    m_control |= MMX_CONTROL_RAMP;
   }
   if(relative) {
-    control |= MMX_CONTROL_RELATIVE;
+    m_control |= MMX_CONTROL_RELATIVE;
   }
   if(brakeOnCompletion) {
-    control |= MMX_CONTROL_BRK;
+    m_control |= MMX_CONTROL_BRK;
   }
   if(holdOnCompletion) {
-    control |= MMX_CONTROL_ON;
+    m_control |= MMX_CONTROL_ON;
   }
   if(timedControl) {
-    control |= MMX_CONTROL_TIME;
+    m_control |= MMX_CONTROL_TIME;
   }
-  m_i2c->set_byte(m_reg_command, control);
+  m_i2c->set_byte(m_reg_command, m_control);
 
 }
 
 
 // stops the motor
 void NxMotor::stop(bool brake) {
-  if (brake) {m_i2c->set_byte(0x41, m_brakeCommand);}
-  else {m_i2c->set_byte(0x41, m_floatCommand);}
+  if (brake) {m_i2c->set_byte(m_reg_command, m_brakeCommand);}
+  else {m_i2c->set_byte(m_reg_command, m_floatCommand);}
 }
 
 // adds the motor1 to the bank from which the method is called
