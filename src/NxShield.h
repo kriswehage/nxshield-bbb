@@ -75,14 +75,6 @@
 #define MMX_Completion_Wait_For    0x01
 #define MMX_Completion_Dont_Wait   0x00
 
-/*
- * Speed constants, these are just convenience constants,
- * You can use any value between 0 and 100.
- */
-#define MMX_Speed_Full 90
-#define MMX_Speed_Medium 60
-#define MMX_Speed_Slow 25
-
 
 class NxMotor {
   public:
@@ -104,13 +96,19 @@ class NxMotor {
     unsigned char m_reg_tasks;
 
     NxMotor();
-    int read_encoderTarget();
-    void write_encoderTarget(int);
-    int read_encoderPosition();
-    void reset_encoder();
-    void set_time(unsigned int);
-    void set_speed(unsigned int);
+    int readEncoderTarget();
+    void setEncoderTarget(int);
+    int getEncoderPosition();
+    void resetEncoder();
+    void setTime(unsigned int);
+    void setSpeed(unsigned int);
     void run(const char*);
+    void setCommand(
+      bool ramp = false,
+      bool relative = false,
+      bool brakeOnCompletion = false,
+      bool holdOnCompletion = false,
+      bool timedControl = false);
     void runSpeedControl(
       bool ramp = false,
       bool brakeOnCompletion = false,
@@ -127,6 +125,13 @@ class NxMotor {
       bool brakeOnCompletion = false,
       bool holdOnCompletion = false,
       bool timedControl = false);
+    void setKpPosition(int Kp);
+    void setKiPosition(int Ki);
+    void setKdPosition(int Kd);
+    void setKpSpeed(int Kp);
+    void setKiSpeed(int Ki);
+    void setKdSpeed(int Kd);
+
     void stop(bool brake=false);
 };
 

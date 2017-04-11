@@ -45,12 +45,12 @@ uint8_t NXTMMX::issueCommand(char command)
 // to and stop at)
 bool NXTMMX::setEncoderTarget(uint8_t which_motor, long target)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SETPT_M1 : MMX_SETPT_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SETPT_M1 : MMX_SETPT_M2;
 	return writeLong(reg, target);
 }
 long NXTMMX::getEncoderTarget(uint8_t which_motor)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SETPT_M1 : MMX_SETPT_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SETPT_M1 : MMX_SETPT_M2;
 	return (long)readLong(reg);
 }
 
@@ -58,24 +58,24 @@ long NXTMMX::getEncoderTarget(uint8_t which_motor)
 // (I believe this is in the range [-100, +100])
 bool NXTMMX::setSpeed(uint8_t which_motor, int speed)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SPEED_M1 : MMX_SPEED_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SPEED_M1 : MMX_SPEED_M2;
 	return writeByte(reg, (uint8_t)(int8_t)speed);
 }
 int8_t NXTMMX::getSpeed(uint8_t which_motor)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SPEED_M1 : MMX_SPEED_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_SPEED_M1 : MMX_SPEED_M2;
 	return (int8_t)readByte(reg);
 }
 
 // This is the time, in seconds, for the motor to run
 bool NXTMMX::getTimeToRun(uint8_t which_motor, int seconds)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_TIME_M1 : MMX_TIME_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_TIME_M1 : MMX_TIME_M2;
 	return writeByte(reg, seconds);
 }
 uint8_t NXTMMX::getTimeToRun(uint8_t which_motor)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_TIME_M1 : MMX_TIME_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_TIME_M1 : MMX_TIME_M2;
 	return readByte(reg);
 }
 
@@ -83,24 +83,24 @@ uint8_t NXTMMX::getTimeToRun(uint8_t which_motor)
 // If you set it, you must set it to zero.
 bool NXTMMX::setCommandRegB(uint8_t which_motor, uint8_t value)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_B_M1 : MMX_CMD_B_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_B_M1 : MMX_CMD_B_M2;
 	return writeByte(reg, value);
 }
 uint8_t NXTMMX::getCommandRegB(uint8_t which_motor)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_B_M1 : MMX_CMD_B_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_B_M1 : MMX_CMD_B_M2;
 	return readByte(reg);
 }
 
 // See User's Guide for what command register A does
 bool NXTMMX::setCommandRegA(uint8_t which_motor, uint8_t value)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_A_M1 : MMX_CMD_A_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_A_M1 : MMX_CMD_A_M2;
 	return writeByte(reg, value);
 }
 uint8_t NXTMMX::getCommandRegA(uint8_t which_motor)
 {
-	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_A_M1 : MMX_CMD_A_M2; 
+	uint8_t reg = (which_motor == MMX_Motor_1) ? MMX_CMD_A_M1 : MMX_CMD_A_M2;
 	return readByte(reg);
 }
 
@@ -327,8 +327,7 @@ void NXTMMX::runSeconds(
 	int sp = calcFinalSpeed(speed, direction);
 	setSpeedTimeAndControl(which_motors, sp, duration, ctrl);
 
-	if (wait_for_completion == MMX_Completion_Wait_For)
-	{
+	if (wait_for_completion == MMX_Completion_Wait_For) {
 		waitUntilTimeDone(which_motors);
 	}
 }

@@ -46,18 +46,18 @@ int main() {
       std::cout << "-->";
       getline(std::cin, buff);
       std::stringstream(buff) >> int_buff;
-      m1->write_encoderTarget(int_buff);
+      m1->setEncoderTarget(int_buff);
       std::cout << "set T pos to " << buff << std::endl;
     } else if (buff == "getET" || buff == "gt") {
-      std::cout << m1->read_encoderTarget() << std::endl;
+      std::cout << m1->getEncoderTarget() << std::endl;
     } else if (buff == "getEP" || buff == "gp") {
-      std::cout << m1->read_encoderPosition() <<  std::endl;
+      std::cout << m1->getEncoderPosition() <<  std::endl;
     } else if (buff == "dump") {
       m1->m_i2c->dump(true);
     } else if (buff == "dump_int") {
       m1->m_i2c->dump(false);
     } else if (buff == "reset") {
-      m1->reset_encoder();
+      m1->resetEncoder();
       std::cout << "reset" << std::endl;
     } else if (buff == "setTime") {
       std::cout << "-->";
@@ -68,10 +68,10 @@ int main() {
       std::cout << "-->";
       getline(std::cin, buff);
       std::stringstream(buff) >> int_buff;
-      m1->set_speed(int_buff);
+      m1->setSpeed(int_buff);
       m1->runSpeedControl();
     } else if (buff == "getVoltage") {
-      std::cout << nx.get_voltage() << std::endl;
+      std::cout << nx.getVoltage() << std::endl;
     }else if (buff == "exit" || buff == "q") {
       alive = false;
     } else {

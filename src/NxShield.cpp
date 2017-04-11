@@ -17,7 +17,7 @@ NxMotor::NxMotor() {
 }
 
 // writes an unsigned long int to the encoder target
-void NxMotor::write_encoderTarget(int target) {
+void NxMotor::setEncoderTarget(int target) {
 
   // return m_i2c->set_long(m_reg_encTarget[0], target);
   uint32_t temp = (uint32_t)target;
@@ -30,7 +30,7 @@ void NxMotor::write_encoderTarget(int target) {
 }
 
 // reads the last encoder target
-int NxMotor::read_encoderTarget() {
+int NxMotor::getEncoderTarget() {
   return m_i2c->get_long(m_reg_encTarget[0]);
   // char b[4];
   // b[0] = m_i2c->get_byte(m_reg_encTarget[0]);
@@ -43,20 +43,20 @@ int NxMotor::read_encoderTarget() {
 }
 
 // reads the current encoder position
-int NxMotor::read_encoderPosition() {
+int NxMotor::getEncoderPosition() {
   return m_i2c->get_long(m_reg_encPosition[0]);
 }
 
 // resets the encoder
-void NxMotor::reset_encoder() {
+void NxMotor::resetEncoder() {
   m_i2c->set_byte(0x41, m_resetCommand);
 }
 
-void NxMotor::set_time(unsigned int value) {
+void NxMotor::setTime(unsigned int value) {
   m_i2c->set_byte(m_reg_time, value);
 }
 
-void NxMotor::set_speed(unsigned int value) {
+void NxMotor::setSpeed(unsigned int value) {
   m_i2c->set_byte(m_reg_speed, value);
 }
 
@@ -185,6 +185,8 @@ void NxBank::add_motor1() {
   m_motor1.m_reg_encPosition[1] = 0x63;
   m_motor1.m_reg_encPosition[2] = 0x64;
   m_motor1.m_reg_encPosition[3] = 0x65;
+
+  m_motor1.m_reg_KpPosition
 
 }
 
