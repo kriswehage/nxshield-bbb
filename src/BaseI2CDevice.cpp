@@ -151,6 +151,7 @@ void BaseI2CDevice::set_long(int address, int value) {
   if (write(m_file, m_buffer, 5) != 5) {
     fprintf(stderr, "Error writing %i bytes\n", 4);
   }
+
 }
 
 

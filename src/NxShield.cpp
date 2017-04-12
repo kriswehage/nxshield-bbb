@@ -19,12 +19,12 @@ NxMotor::NxMotor() {
 // writes a long int to the encoder target
 void NxMotor::setEncoderTarget(int32_t target) {
 
-  // char* somechars = (char*)&target;
-  m_i2c->set_long(m_reg_encTarget[0], target);
-  // m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
-  // m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
-  // m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
-  // m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
+  char* somechars = (char*)&target;
+  // m_i2c->set_long(m_reg_encTarget[0], target);
+  m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
+  m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
+  m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
+  m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
 }
 
 // reads the last encoder target
