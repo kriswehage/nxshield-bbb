@@ -216,12 +216,12 @@ void NxBank::addMotor2() {
 }
 
 /** set the PID control for the encoders */
-bool NxBank::setEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
+void NxBank::setEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
 
 }
 
 /** set the PID control for the speed of the motors */
-bool NxBank::setSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
+void NxBank::setSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
 
 }
 

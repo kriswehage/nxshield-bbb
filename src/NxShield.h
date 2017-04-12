@@ -79,7 +79,7 @@ enum motor_enum_t {
   MOTOR1,
   MOTOR2,
   BOTH_MOTORS
-}
+};
 
 class NxMotor {
   public:
