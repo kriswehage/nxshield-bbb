@@ -75,6 +75,11 @@
 #define MMX_Completion_Wait_For    0x01
 #define MMX_Completion_Dont_Wait   0x00
 
+enum motor_enum_t {
+  MOTOR1;
+  MOTOR2;
+  BOTH_MOTORS;
+};
 
 class NxMotor {
   public:
@@ -151,12 +156,11 @@ class NxBank {
     void addMotor1();
     void addMotor2();
 
-    void setKpPosition(int Kp);
-    void setKiPosition(int Ki);
-    void setKdPosition(int Kd);
-    void setKpSpeed(int Kp);
-    void setKiSpeed(int Ki);
-    void setKdSpeed(int Kd);
+    /** set the PID control for the encoders */
+  	void setEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd);
+    
+  	/** set the PID control for the speed of the motors */
+  	void setSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd);
 
   private:
 

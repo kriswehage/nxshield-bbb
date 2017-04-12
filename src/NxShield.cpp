@@ -16,17 +16,15 @@ NxMotor::NxMotor() {
   m_speed = 0;
 }
 
-// writes an unsigned long int to the encoder target
-void NxMotor::setEncoderTarget(int target) {
+// writes a long int to the encoder target
+void NxMotor::setEncoderTarget(int32_t target) {
 
-  // return m_i2c->set_long(m_reg_encTarget[0], target);
-  uint32_t temp = (uint32_t)target;
-  char* somechars = (char*)&temp;
-
-  m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
-  m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
-  m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
-  m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
+  // char* somechars = (char*)&target;
+  m_i2c->set_long(m_reg_encTarget[0], target);
+  // m_i2c->set_byte(m_reg_encTarget[0], somechars[0]);
+  // m_i2c->set_byte(m_reg_encTarget[1], somechars[1]);
+  // m_i2c->set_byte(m_reg_encTarget[2], somechars[2]);
+  // m_i2c->set_byte(m_reg_encTarget[3], somechars[3]);
 }
 
 // reads the last encoder target
@@ -157,9 +155,11 @@ void NxMotor::runSpeedAndPositionControl(
 
 // stops the motor
 void NxMotor::stop(bool brake) {
-  if (brake) {m_i2c->set_byte(0x41, m_brakeCommand);}
-  else {m_i2c->set_byte(0x41, m_floatCommand);}
-  // m_i2c->set_byte(m_reg_command, 0);
+  if (brake) {
+    m_i2c->set_byte(0x41, m_brakeCommand);
+  } else {
+    m_i2c->set_byte(0x41, m_floatCommand);
+  }
 }
 
 // adds the motor1 to the bank from which the method is called
@@ -213,6 +213,16 @@ void NxBank::addMotor2() {
   m_motor2.m_reg_encPosition[2] = 0x68;
   m_motor2.m_reg_encPosition[3] = 0x69;
 
+}
+
+/** set the PID control for the encoders */
+bool NxBank::setEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
+
+}
+
+/** set the PID control for the speed of the motors */
+bool NxBank::setSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
+  m_i2c.write_bytes
 }
 
 
