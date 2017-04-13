@@ -82,8 +82,6 @@ unsigned char* BaseI2CDevice::get_bytes(int add1, int bytes) {
 @brief Get ulong value at address
 */
 uint32_t BaseI2CDevice::get_ulong(int add1) {
-  set_pointer(add1);
-
   unsigned char* buf = get_bytes(add1, 4);
   return *((uint32_t*)buf);
 }
@@ -93,8 +91,6 @@ uint32_t BaseI2CDevice::get_ulong(int add1) {
 @brief Get long value at address
 */
 int32_t BaseI2CDevice::get_long(int add1) {
-  set_pointer(add1);
-
   unsigned char* buf = get_bytes(add1, 4);
   return *((int32_t*)buf);
 }
@@ -103,35 +99,17 @@ int32_t BaseI2CDevice::get_long(int add1) {
 @brief Get uint value at address
 */
 uint16_t BaseI2CDevice::get_uint(int add1) {
-  set_pointer(add1);
-
   unsigned char* buf = get_bytes(add1, 2);
   return *((uint16_t*)buf);
 }
 
 
-/*!
-@brief Get uint value at address
-*/
-void BaseI2CDevice::set_uint(int address, uint16_t value) {
-  m_buffer[0] = address;
-  memcpy(m_buffer + 1, &value, sizeof(int16_t));
-  // int32_t temp = (int32_t)value;
-  // char* temp2 = (char*)&temp;
-  // for(int i = 1; i < 5; i++) {
-  //   m_buffer[i] = temp2[i - 1];
-  // }
-  if (write(m_file, m_buffer, 3) != 3) {
-    fprintf(stderr, "Error writing %i bytes\n", 2);
-  }
-}
+
 
 /*!
 @brief Get int at address
 */
 int16_t BaseI2CDevice::get_int(int add1) {
-  set_pointer(add1);
-
   unsigned char* buf = get_bytes(add1, 2);
   return *((int16_t*)buf);
 }
@@ -152,28 +130,56 @@ void BaseI2CDevice::set_byte(int address, char value) {
 }
 
 /*!
-@brief Set byte value at address
+@brief Set signed long (int32_t) value at address
 
-FiX: For consistency, this function should take unsigned char addresses.
-However, we need to make sure that this indeed makes sense.
 */
-void BaseI2CDevice::set_long(int address, int value) {
+void BaseI2CDevice::set_long(int address, int32_t value) {
   m_buffer[0] = address;
   memcpy(m_buffer + 1, &value, sizeof(int32_t));
-  // int32_t temp = (int32_t)value;
-  // char* temp2 = (char*)&temp;
-  // for(int i = 1; i < 5; i++) {
-  //   m_buffer[i] = temp2[i - 1];
-  // }
   if (write(m_file, m_buffer, 5) != 5) {
     fprintf(stderr, "Error writing %i bytes\n", 4);
   }
-
 }
 
 
 /*!
-@brief Dump a neat table of all the hex values...similar to i2cdump
+@brief Set unsigned long (uint32_t) value at address
+
+*/
+void BaseI2CDevice::set_ulong(int address, uint32_t value) {
+  m_buffer[0] = address;
+  memcpy(m_buffer + 1, &value, sizeof(uint32_t));
+  if (write(m_file, m_buffer, 5) != 5) {
+    fprintf(stderr, "Error writing %i bytes\n", 4);
+  }
+}
+
+
+/*!
+@brief Set short int (int16_t) value at address
+*/
+void BaseI2CDevice::set_int(int address, int16_t value) {
+  m_buffer[0] = address;
+  memcpy(m_buffer + 1, &value, sizeof(int16_t));
+  if (write(m_file, m_buffer, 3) != 3) {
+    fprintf(stderr, "Error writing %i bytes\n", 2);
+  }
+}
+
+/*!
+@brief Set short int (uint16_t) value at address
+*/
+void BaseI2CDevice::set_uint(int address, uint16_t value) {
+  m_buffer[0] = address;
+  memcpy(m_buffer + 1, &value, sizeof(uint16_t));
+  if (write(m_file, m_buffer, 3) != 3) {
+    fprintf(stderr, "Error writing %i bytes\n", 2);
+  }
+}
+
+
+/*!
+@brief Dump a neat table of all the hex values similar to i2cdump
 */
 void BaseI2CDevice::dump(bool as_hex) {
 	int n;
