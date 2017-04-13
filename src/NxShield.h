@@ -117,7 +117,7 @@ class NxMotor {
       bool overLoaded;
       bool timedMode;
       bool stalled;
-    }
+    };
 
     int getEncoderTarget();
     void setEncoderTarget(int);
