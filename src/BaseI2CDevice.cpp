@@ -113,7 +113,7 @@ uint16_t BaseI2CDevice::get_uint(int add1) {
 /*!
 @brief Get uint value at address
 */
-bool BaseI2CDevice::set_uint(int address, uint16_t value) {
+void BaseI2CDevice::set_uint(int address, uint16_t value) {
   m_buffer[0] = address;
   memcpy(m_buffer + 1, &value, sizeof(int16_t));
   // int32_t temp = (int32_t)value;
