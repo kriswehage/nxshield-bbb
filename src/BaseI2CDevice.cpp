@@ -113,11 +113,17 @@ uint16_t BaseI2CDevice::get_uint(int add1) {
 /*!
 @brief Get uint value at address
 */
-bool BaseI2CDevice::set_uint(int add1, uint16_t add1) {
-  // set_pointer(add1);
-  //
-  unsigned char* buf = get_bytes(add1, 2);
-  return *((uint16_t*)buf);
+bool BaseI2CDevice::set_uint(int address, uint16_t value) {
+  m_buffer[0] = address;
+  memcpy(m_buffer + 1, &value, sizeof(int16_t));
+  // int32_t temp = (int32_t)value;
+  // char* temp2 = (char*)&temp;
+  // for(int i = 1; i < 5; i++) {
+  //   m_buffer[i] = temp2[i - 1];
+  // }
+  if (write(m_file, m_buffer, 3) != 3) {
+    fprintf(stderr, "Error writing %i bytes\n", 2);
+  }
 }
 
 /*!
