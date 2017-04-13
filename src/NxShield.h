@@ -149,6 +149,7 @@ class NxMotor {
       bool holdOnCompletion = false,
       bool timedControl = false);
     void stop(bool brake = false);
+    void getStatus();
 };
 
 class NxBank {
