@@ -154,7 +154,7 @@ void NxMotor::runSpeedAndPositionControl(
 
 
 void NxMotor::getStatus() {
-  m_status_byte = i2c->get_byte(m_status_byte);
+  m_status_byte = m_i2c->get_byte(m_status_byte);
 }
 
 // stops the motor
