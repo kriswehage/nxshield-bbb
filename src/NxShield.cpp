@@ -221,16 +221,16 @@ void NxBank::addMotor2() {
 
 /** set the PID control for the encoders */
 void NxBank::setEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-  m_i2c->set_uint(m_position_Kp, Kp);
-  m_i2c->set_uint(m_position_Ki, Ki);
-  m_i2c->set_uint(m_position_Kp, Kp);
+  m_i2c.set_uint(m_position_Kp, Kp);
+  m_i2c.set_uint(m_position_Ki, Ki);
+  m_i2c.set_uint(m_position_Kp, Kp);
 }
 
 /** set the PID control for the speed of the motors */
 void NxBank::setSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-  m_i2c->set_uint(m_speed_Kp, Kp);
-  m_i2c->set_uint(m_speed_Ki, Ki);
-  m_i2c->set_uint(m_speed_Kp, Kp);
+  m_i2c.set_uint(m_speed_Kp, Kp);
+  m_i2c.set_uint(m_speed_Ki, Ki);
+  m_i2c.set_uint(m_speed_Kp, Kp);
 }
 
 
