@@ -48,6 +48,7 @@ int main() {
       std::stringstream(buff) >> int_buff;
       m1->setEncoderTarget(int_buff);
       std::cout << "set T pos to " << buff << std::endl;
+      m1->runPositionControl();
     } else if (buff == "getET" || buff == "gt") {
       std::cout << m1->getEncoderTarget() << std::endl;
     } else if (buff == "getEP" || buff == "gp") {
