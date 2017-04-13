@@ -54,7 +54,7 @@ void NxMotor::setTime(unsigned int value) {
   m_i2c->set_byte(m_reg_time, value);
 }
 
-void NxMotor::setSpeed(unsigned int value) {
+void NxMotor::setSpeed(int value) {
   m_i2c->set_byte(m_reg_speed, value);
 }
 
@@ -153,6 +153,10 @@ void NxMotor::runSpeedAndPositionControl(
 }
 
 
+void NxMotor::getStatus() {
+  m_status_byte = i2c->get_byte(m_status_byte);
+}
+
 // stops the motor
 void NxMotor::stop(bool brake) {
   if (brake) {
@@ -217,12 +221,16 @@ void NxBank::addMotor2() {
 
 /** set the PID control for the encoders */
 void NxBank::setEncoderPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-
+  m_i2c->set_uint(m_position_Kp, Kp);
+  m_i2c->set_uint(m_position_Ki, Ki);
+  m_i2c->set_uint(m_position_Kp, Kp);
 }
 
 /** set the PID control for the speed of the motors */
 void NxBank::setSpeedPID(uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-
+  m_i2c->set_uint(m_speed_Kp, Kp);
+  m_i2c->set_uint(m_speed_Ki, Ki);
+  m_i2c->set_uint(m_speed_Kp, Kp);
 }
 
 

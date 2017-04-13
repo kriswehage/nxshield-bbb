@@ -105,13 +105,26 @@ class NxMotor {
     unsigned char m_reg_status;
     unsigned char m_reg_tasks;
 
+    unsigned char m_status_byte;
+    unsigned char m_tasks_running_byte;
+
+    struct m_status {
+      bool speedControlOn;
+      bool motorRamping;
+      bool motorPowered;
+      bool positionControlOn;
+      bool brakeMode;
+      bool overLoaded;
+      bool timedMode;
+      bool stalled;
+    }
 
     int getEncoderTarget();
     void setEncoderTarget(int);
     int getEncoderPosition();
     void resetEncoder();
     void setTime(unsigned int);
-    void setSpeed(unsigned int);
+    void setSpeed(int);
     void run(const char*);
     void setCommand(
       bool ramp = false,
