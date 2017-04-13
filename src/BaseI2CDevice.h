@@ -25,8 +25,8 @@ class BaseI2CDevice {
     void set_byte(int, char);
 		void set_long(int, int);
 		void set_ulong(int, unsigned int);
-		void set_int(int, int);
-		void set_uint(int, unsigned int);
+		void set_int(int, int16_t);
+		void set_uint(int, uint16_t);
     void dump(bool as_hex=false);
     std::string get_string(int, int);
 
