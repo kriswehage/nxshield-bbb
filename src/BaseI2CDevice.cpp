@@ -153,7 +153,7 @@ However, we need to make sure that this indeed makes sense.
 */
 void BaseI2CDevice::set_long(int address, int value) {
   m_buffer[0] = address;
-  memset(m_buffer + 1, &value, sizeof(int32_t))
+  memcpy(m_buffer + 1, &value, sizeof(int32_t))
   // int32_t temp = (int32_t)value;
   // char* temp2 = (char*)&temp;
   // for(int i = 1; i < 5; i++) {
