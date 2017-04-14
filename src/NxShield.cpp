@@ -96,7 +96,7 @@ double NxMotor::getSpeed() {
 
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
 
-  std::cout << "x_0: " << x0 << "x_1:" << x1 <<  "duration (ms): " << duration << std::endl;
+  std::cout << "x_0: " << x0 << " x_1: " << x1 <<  " duration (ms): " << duration << std::endl;
   return(((double)x1 - (double)x0) / duration / 1e6);
 
 }
