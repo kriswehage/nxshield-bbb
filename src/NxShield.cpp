@@ -89,7 +89,7 @@ double NxMotor::getSpeed() {
   time(&begin);
   int x0 = getEncoderPosition();
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(200));
+  std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
   time(&end);
   int x1 = getEncoderPosition();
