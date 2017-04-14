@@ -5,6 +5,7 @@
 #include <limits>    //for bit conversion
 #include <stdint.h> //to combine bytes into int
 #include <ctime>
+#include <thread>
 
 #include "NxShield.h"
 
@@ -84,8 +85,11 @@ This will be approximate due to delay in reading information from i2c bus
 double NxMotor::getSpeed() {
   time_t begin;
   time_t end;
+
   time(&begin);
   int x0 = getEncoderPosition();
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
   time(&end);
   int x1 = getEncoderPosition();
