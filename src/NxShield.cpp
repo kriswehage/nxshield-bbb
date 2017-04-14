@@ -85,13 +85,13 @@ This will be approximate due to delay in reading information from i2c bus
 */
 double NxMotor::getSpeed() {
 
-  std::chrono::high_resolution_clock::time_point t0 = std::chrone::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point t0 = std::chrono::high_resolution_clock::now();
 
   int x0 = getEncoderPosition();
 
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  std::chrono::high_resolution_clock::time_point t1 = std::chrone::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
   int x1 = getEncoderPosition();
 
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
