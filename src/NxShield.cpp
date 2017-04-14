@@ -6,6 +6,7 @@
 #include <stdint.h> //to combine bytes into int
 #include <ctime>
 #include <thread>
+#include <chrono>
 
 #include "NxShield.h"
 
@@ -83,21 +84,20 @@ void NxMotor::run(const char* comm) {
 This will be approximate due to delay in reading information from i2c bus
 */
 double NxMotor::getSpeed() {
-  time_t begin;
-  time_t end;
 
-  time(&begin);
+  std::chrono::high_resolution_clock::time_point t0 = std::chrone::high_resolution_clock::now();
+
   int x0 = getEncoderPosition();
 
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  time(&end);
+  std::chrono::high_resolution_clock::time_point t1 = std::chrone::high_resolution_clock::now();
   int x1 = getEncoderPosition();
 
-  double duration = difftime(end, begin);
+  auto duration = duration_cast<microseconds>( t2 - t1 ).count() / 1000.0;
 
   std::cout << "duration: " << duration << std::endl;
-  return((x1 - x0) / duration);
+  return(((double)x1 - (double)x0) / duration);
 
 }
 
