@@ -73,7 +73,9 @@ int main() {
       m1->runSpeedControl();
     } else if (buff == "getVoltage") {
       std::cout << nx.getVoltage() << std::endl;
-    }else if (buff == "exit" || buff == "q") {
+    } else if (buff == "getSpeed") {
+      std::cout << nx.getSpeed() << std::endl;
+     }else if (buff == "exit" || buff == "q") {
       alive = false;
     } else {
       std::cout << "not a command ..." << std::endl;

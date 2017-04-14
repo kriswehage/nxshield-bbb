@@ -76,6 +76,11 @@ void NxMotor::run(const char* comm) {
 #define MMX_CONTROL_TIME       0x40
 #define MMX_CONTROL_GO         0x80
 
+/*!
+@brief get speed in encoder ticks per second.
+
+This will be approximate due to delay in reading information from i2c bus
+*/
 double NxMotor::getSpeed() {
   time_t begin;
   time_t end;
