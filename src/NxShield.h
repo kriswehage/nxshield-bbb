@@ -125,6 +125,7 @@ class NxMotor {
     void resetEncoder();
     void setTime(unsigned int);
     void setSpeed(int);
+    double getSpeed();
     void run(const char*);
     void setCommand(
       bool ramp = false,
