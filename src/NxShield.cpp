@@ -89,12 +89,14 @@ double NxMotor::getSpeed() {
   time(&begin);
   int x0 = getEncoderPosition();
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
   time(&end);
   int x1 = getEncoderPosition();
 
   double duration = difftime(end, begin);
+
+  std::cout << "duration: " << duration << std::endl;
   return((x1 - x0) / duration);
 
 }
