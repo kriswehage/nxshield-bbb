@@ -94,7 +94,7 @@ double NxMotor::getSpeed() {
   std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
   int x1 = getEncoderPosition();
 
-  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+  auto duration = std::chrono::duration_cast<std::chrono::seconds>(t1 - t0).count();
 
   std::cout << "duration: " << duration << std::endl;
   return(((double)x1 - (double)x0) / duration);
