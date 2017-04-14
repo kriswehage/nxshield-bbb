@@ -4,7 +4,7 @@
 #include <iostream>
 #include <limits>    //for bit conversion
 #include <stdint.h> //to combine bytes into int
-#include <chrono>
+#include <ctime>
 
 #include "NxShield.h"
 
@@ -77,15 +77,15 @@ void NxMotor::run(const char* comm) {
 #define MMX_CONTROL_GO         0x80
 
 double NxMotor::getSpeed() {
-  std::chrono::high_resolution_clock::time_point t0 =
-    std::chrono::high_resolution_clock::now();
+  time_t begin;
+  time_t end;
+  time(&begin);
   int x0 = getEncoderPosition();
 
-  std::chrono::high_resolution_clock::time_point t1 =
-    std::chrono::high_resolution_clock::now();
+  time(&end);
   int x1 = getEncoderPosition();
 
-  double duration = duration_cast<microseconds>(t1 - t0).count();
+  double duration = difftime(end, begin);
   return((x1 - x0) / duration);
 
 }
