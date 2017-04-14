@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>    //for bit conversion
 #include <stdint.h> //to combine bytes into int
+#include <chrono>
 
 #include "NxShield.h"
 
