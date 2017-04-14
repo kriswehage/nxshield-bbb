@@ -15,7 +15,7 @@ mark_as_advanced(VERSION_MAJOR VERSION_MINOR VERSION_PATCH)
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin/ )
 
 add_definitions(-ggdb)
-# add_definitions(-std=c11)
+add_definitions(-std=c11)
 # add_definitions(-O3)
 add_definitions(-Wall)
 # add_definitions(-D_GNU_SOURCE=1)
