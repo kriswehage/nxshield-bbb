@@ -75,6 +75,20 @@ void NxMotor::run(const char* comm) {
 #define MMX_CONTROL_TIME       0x40
 #define MMX_CONTROL_GO         0x80
 
+double NxMotor::getSpeed() {
+  std::chrono::high_resolution_clock::time_point t0 =
+    high_resolution_clock::now();
+  int x0 = getEncoderPosition();
+
+  std::chrono::high_resolution_clock::time_point t1 =
+    high_resolution_clock::now();
+  int x1 = getEncoderPosition();
+
+  auto duration = duration_cast<seconds>(t1 - t0).count();
+  return((x1 - x0) / duration);
+
+}
+
 void NxMotor::runSpeedControl(
   bool ramp,
   bool brakeOnCompletion,
